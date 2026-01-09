@@ -29,6 +29,30 @@
       --text-dim: #666666;
       --border: #1a1a1a;
       --border-hover: #2a2a2a;
+      --grid-line: rgba(0, 255, 65, 0.03);
+      --scanline: rgba(0, 0, 0, 0.02);
+    }
+
+    body.theme-light {
+      --bg-primary: #f6f7fb;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #eef1f7;
+      --bg-terminal: #ffffff;
+      --phosphor: #0c7a2d;
+      --phosphor-dim: #0b6a27;
+      --phosphor-glow: rgba(12, 122, 45, 0.12);
+      --phosphor-intense: rgba(12, 122, 45, 0.3);
+      --cyan: #007c99;
+      --amber: #c9742d;
+      --purple: #6b5bd6;
+      --red: #c94b4b;
+      --text-primary: #151924;
+      --text-secondary: #4b5565;
+      --text-dim: #8a94a6;
+      --border: #d8dde8;
+      --border-hover: #c3c9d6;
+      --grid-line: rgba(12, 122, 45, 0.08);
+      --scanline: rgba(0, 0, 0, 0.04);
     }
 
     * {
@@ -95,8 +119,8 @@
       width: 100%;
       height: 100%;
       background-image:
-        linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
       background-size: 60px 60px;
       pointer-events: none;
       z-index: 0;
@@ -122,8 +146,8 @@
       pointer-events: none;
       background: repeating-linear-gradient(
         0deg,
-        rgba(0, 0, 0, 0.02) 0px,
-        rgba(0, 0, 0, 0.02) 1px,
+        var(--scanline) 0px,
+        var(--scanline) 1px,
         transparent 1px,
         transparent 2px
       );
@@ -299,6 +323,43 @@
       fill: currentColor;
     }
 
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8125rem;
+      transition: all 0.2s;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--phosphor-dim);
+      color: var(--phosphor);
+    }
+
+    .theme-toggle svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+    }
+
+    .theme-toggle .icon-sun {
+      display: none;
+    }
+
+    body.theme-light .theme-toggle .icon-sun {
+      display: inline;
+    }
+
+    body.theme-light .theme-toggle .icon-moon {
+      display: none;
+    }
+
     /* Mobile menu */
     .mobile-menu-btn {
       display: none;
@@ -327,7 +388,7 @@
       top: 72px;
       left: 0;
       right: 0;
-      background: rgba(5, 5, 5, 0.98);
+      background: var(--bg-primary);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       padding: 1.5rem;
@@ -480,6 +541,19 @@
 
     .install-box .pkg {
       color: var(--phosphor);
+    }
+
+    .install-steps {
+      margin-top: 1rem;
+      padding-left: 1.25rem;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .install-steps code {
+      color: var(--phosphor);
+      font-family: "JetBrains Mono", monospace;
     }
 
     .copy-btn {
@@ -1430,6 +1504,17 @@
       color: var(--phosphor);
     }
 
+    .cta-steps {
+      margin-top: 1.25rem;
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
+    .cta-steps code {
+      color: var(--phosphor);
+      font-family: "JetBrains Mono", monospace;
+    }
+
     /* Footer */
     footer {
       padding: 4rem 0;
@@ -1539,6 +1624,10 @@
         display: none;
       }
 
+      .theme-label {
+        display: none;
+      }
+
       .features-grid {
         grid-template-columns: 1fr;
       }
@@ -1621,11 +1710,21 @@
         <li><a href="#usage">Usage</a></li>
       </ul>
       <div class="nav-right">
-        <span class="version-badge">v1.0.0</span>
-        <a href="https://github.com" class="github-link" target="_blank">
+        <span class="version-badge">v1.1.2</span>
+        <a href="https://github.com/asharahmed/qr-cli" class="github-link" target="_blank">
           <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           GitHub
         </a>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"></path>
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <span class="theme-label" id="themeLabel">Dark</span>
+        </button>
         <button class="mobile-menu-btn" id="mobileMenuBtn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -1642,7 +1741,7 @@
     <a href="#try-it">Try It</a>
     <a href="#features">Features</a>
     <a href="#usage">Usage</a>
-    <a href="https://github.com" target="_blank">GitHub</a>
+    <a href="https://github.com/asharahmed/qr-cli" target="_blank">GitHub</a>
   </div>
 
   <!-- Hero Section -->
@@ -1659,8 +1758,8 @@
           <p class="hero-description">A fast, lightweight command-line tool that renders beautiful QR codes as ASCII art. Export to PNG or display instantly.</p>
           <div class="hero-actions">
             <div class="install-box">
-              <code><span class="prompt">$</span> npm install -g <span class="pkg">qr-cli</span></code>
-              <button class="copy-btn" onclick="copyToClipboard('npm install -g qr-cli')" title="Copy to clipboard">
+              <code><span class="prompt">$</span> npm install -g <span class="pkg">github:asharahmed/qr-cli</span></code>
+              <button class="copy-btn" onclick="copyToClipboard('npm install -g github:asharahmed/qr-cli')" title="Copy to clipboard">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
@@ -1674,6 +1773,10 @@
               </svg>
             </a>
           </div>
+          <ol class="install-steps">
+            <li>Install globally with <code>npm install -g github:asharahmed/qr-cli</code></li>
+            <li>Run <code>qr "https://example.com"</code> in your terminal</li>
+          </ol>
         </div>
         <div class="terminal-wrapper">
           <div class="terminal">
@@ -1686,7 +1789,7 @@
             <div class="terminal-body">
               <div class="terminal-line">
                 <span class="prompt">$</span>
-                <span class="typed-command"><span class="command">qr</span> <span class="string">"https://github.com"</span></span>
+                <span class="typed-command"><span class="command">qr</span> <span class="string">"https://github.com/asharahmed/qr-cli"</span></span>
               </div>
               <pre class="qr-output" id="heroQR"></pre>
               <div class="terminal-line final-prompt">
@@ -2100,14 +2203,15 @@
         <h2>Ready to get started?</h2>
         <p>Install QR-CLI globally and start creating QR codes in seconds. Free and open source, forever.</p>
         <div class="cta-install">
-          <code><span class="prompt">$</span> npm install -g <span class="pkg">qr-cli</span></code>
-          <button class="copy-btn" onclick="copyToClipboard('npm install -g qr-cli')" title="Copy to clipboard">
+          <code><span class="prompt">$</span> npm install -g <span class="pkg">github:asharahmed/qr-cli</span></code>
+          <button class="copy-btn" onclick="copyToClipboard('npm install -g github:asharahmed/qr-cli')" title="Copy to clipboard">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
               <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
             </svg>
           </button>
         </div>
+        <div class="cta-steps">Install, then run <code>qr "https://example.com"</code> to generate your first code.</div>
       </div>
     </div>
   </section>
@@ -2121,8 +2225,8 @@
           <p>Built with care. Licensed under <a href="#">MIT</a>.</p>
         </div>
         <div class="footer-links">
-          <a href="https://github.com">GitHub</a>
-          <a href="https://npmjs.com">npm</a>
+          <a href="https://github.com/asharahmed/qr-cli">GitHub</a>
+          <a href="https://github.com/asharahmed/qr-cli/releases">Releases</a>
           <a href="#">Documentation</a>
         </div>
       </div>
@@ -2178,6 +2282,28 @@
       });
     });
 
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const themeLabel = document.getElementById('themeLabel');
+    const themeStorageKey = 'qrcli-theme';
+
+    function applyTheme(theme) {
+      const isLight = theme === 'light';
+      document.body.classList.toggle('theme-light', isLight);
+      themeToggle.setAttribute('aria-pressed', String(isLight));
+      themeLabel.textContent = isLight ? 'Light' : 'Dark';
+    }
+
+    const savedTheme = localStorage.getItem(themeStorageKey);
+    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    applyTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
+
+    themeToggle.addEventListener('click', () => {
+      const nextTheme = document.body.classList.contains('theme-light') ? 'dark' : 'light';
+      applyTheme(nextTheme);
+      localStorage.setItem(themeStorageKey, nextTheme);
+    });
+
     // QR Code generation using qrcode-generator library
     function generateQRCode(text, large = false) {
       const qr = qrcode(0, 'M');
@@ -2222,7 +2348,7 @@
     // Generate hero QR on load
     function generateHeroQR() {
       const qrOutput = document.getElementById('heroQR');
-      qrOutput.textContent = generateQRCode('https://github.com');
+      qrOutput.textContent = generateQRCode('https://github.com/asharahmed/qr-cli');
     }
     generateHeroQR();
 
