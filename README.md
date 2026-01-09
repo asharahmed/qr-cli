@@ -10,19 +10,19 @@ Short description: A fast, minimal CLI for generating terminal and PNG QR codes.
 - Save QR codes as PNG files
 - Invert colors or use large rendering
 
-## Install (no PAT required)
+## Install
 Install directly from the public GitHub repo:
 ```bash
 npm install -g github:asharahmed/qr-cli
 ```
 
 ## Install (GitHub Packages)
-If you prefer GitHub Packages, configure npm for the @asharahmed scope:
+Configure npm for the @asharahmed scope:
 ```bash
 npm config set @asharahmed:registry https://npm.pkg.github.com
 ```
 
-Then install the CLI (GitHub Packages requires auth):
+Then install the CLI:
 ```bash
 npm install -g @asharahmed/qr-cli
 ```
@@ -50,11 +50,6 @@ npm install
 npm run build
 node dist/index.js "hello"
 ```
-
-## Publishing
-Publishing is handled by GitHub Actions using the built-in `GITHUB_TOKEN`, so a
-PAT is not needed. Create a GitHub Release on the repo and the workflow will
-publish to GitHub Packages.
 
 ## License
 MIT
