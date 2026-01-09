@@ -495,6 +495,10 @@
       50% { opacity: 0.5; transform: scale(1.2); }
     }
 
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
     .hero h1 {
       font-family: 'Outfit', sans-serif;
       font-size: clamp(2.75rem, 5.5vw, 4.5rem);
@@ -505,10 +509,27 @@
     }
 
     .hero h1 .highlight {
-      color: var(--phosphor);
-      text-shadow: 0 0 60px var(--phosphor-intense);
+      background: linear-gradient(135deg, var(--phosphor) 0%, var(--cyan) 50%, var(--phosphor) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 4s ease-in-out infinite;
       position: relative;
       display: inline-block;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% center; }
+      50% { background-position: 100% center; }
+    }
+
+    body.theme-light .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--phosphor) 0%, #0095b3 50%, var(--phosphor) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero h1 .line {
@@ -545,8 +566,9 @@
     }
 
     .install-box:hover {
-      border-color: var(--border-hover);
-      box-shadow: 0 0 30px rgba(0, 255, 65, 0.05);
+      border-color: var(--phosphor-dim);
+      box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+      transform: translateY(-2px);
     }
 
     .install-box code {
@@ -603,6 +625,17 @@
     .copy-btn svg {
       width: 16px;
       height: 16px;
+      transition: all 0.2s;
+    }
+
+    .copy-btn.copied {
+      color: var(--phosphor);
+      border-color: var(--phosphor);
+      background: var(--phosphor-glow);
+    }
+
+    .copy-btn.copied svg {
+      transform: scale(1.1);
     }
 
     .btn-primary {
@@ -648,6 +681,34 @@
 
     .btn-primary:hover svg {
       transform: translateX(3px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* Button ripple effect */
+    .demo-btn-generate {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-btn-generate::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s, height 0.4s;
+    }
+
+    .demo-btn-generate:active::after {
+      width: 300px;
+      height: 300px;
     }
 
     /* Terminal Window */
@@ -1113,6 +1174,16 @@
       font-size: 0.5rem;
       white-space: pre;
       transition: all 0.3s;
+      animation: qrPulse 2s ease-in-out infinite;
+    }
+
+    .demo-qr:empty {
+      animation: none;
+    }
+
+    @keyframes qrPulse {
+      0%, 100% { filter: drop-shadow(0 0 8px var(--phosphor-glow)); }
+      50% { filter: drop-shadow(0 0 16px var(--phosphor-intense)); }
     }
 
     .demo-qr.inverted {
@@ -1216,6 +1287,18 @@
       background: rgba(0, 255, 65, 0.05);
     }
 
+    .comparison-row:not(.header) {
+      transition: all 0.2s ease;
+    }
+
+    .comparison-row:not(.header):hover {
+      background: var(--bg-tertiary);
+    }
+
+    .comparison-row:not(.header):hover .comparison-highlight {
+      background: rgba(0, 255, 65, 0.1);
+    }
+
     /* Features Section */
     .features {
       padding: 8rem 0;
@@ -1249,6 +1332,10 @@
       letter-spacing: -0.03em;
       margin-bottom: 4rem;
       max-width: 500px;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .features-grid {
@@ -1305,6 +1392,58 @@
 
     .feature-card:hover .feature-icon {
       transform: scale(1.1) rotate(-5deg);
+    }
+
+    /* Varied accent colors for feature cards */
+    .feature-card:nth-child(1) .feature-icon {
+      background: rgba(0, 212, 255, 0.12);
+      color: var(--cyan);
+      border-color: rgba(0, 212, 255, 0.2);
+    }
+    .feature-card:nth-child(2) .feature-icon {
+      background: rgba(167, 139, 250, 0.12);
+      color: var(--purple);
+      border-color: rgba(167, 139, 250, 0.2);
+    }
+    .feature-card:nth-child(3) .feature-icon {
+      background: rgba(255, 179, 71, 0.12);
+      color: var(--amber);
+      border-color: rgba(255, 179, 71, 0.2);
+    }
+    .feature-card:nth-child(4) .feature-icon {
+      background: var(--phosphor-glow);
+      color: var(--phosphor);
+      border-color: rgba(0, 255, 65, 0.15);
+    }
+    .feature-card:nth-child(5) .feature-icon {
+      background: rgba(255, 107, 107, 0.12);
+      color: var(--red);
+      border-color: rgba(255, 107, 107, 0.2);
+    }
+    .feature-card:nth-child(6) .feature-icon {
+      background: rgba(0, 212, 255, 0.12);
+      color: var(--cyan);
+      border-color: rgba(0, 212, 255, 0.2);
+    }
+
+    /* Hover glow effects matching icon colors */
+    .feature-card:nth-child(1):hover {
+      box-shadow: 0 20px 60px rgba(0, 212, 255, 0.15);
+    }
+    .feature-card:nth-child(2):hover {
+      box-shadow: 0 20px 60px rgba(167, 139, 250, 0.15);
+    }
+    .feature-card:nth-child(3):hover {
+      box-shadow: 0 20px 60px rgba(255, 179, 71, 0.15);
+    }
+    .feature-card:nth-child(4):hover {
+      box-shadow: 0 20px 60px rgba(0, 255, 65, 0.15);
+    }
+    .feature-card:nth-child(5):hover {
+      box-shadow: 0 20px 60px rgba(255, 107, 107, 0.15);
+    }
+    .feature-card:nth-child(6):hover {
+      box-shadow: 0 20px 60px rgba(0, 212, 255, 0.15);
     }
 
     .feature-icon svg {
@@ -1552,12 +1691,29 @@
     footer {
       padding: 4rem 0;
       border-top: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 200px;
+      background: radial-gradient(ellipse at center bottom, var(--phosphor-glow) 0%, transparent 70%);
+      opacity: 0.4;
+      pointer-events: none;
     }
 
     .footer-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
+      z-index: 1;
     }
 
     .footer-left {
@@ -1571,11 +1727,23 @@
       font-size: 1.25rem;
       font-weight: 700;
       color: var(--phosphor);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .footer-logo span {
       color: var(--text-dim);
       font-weight: 400;
+    }
+
+    .footer-logo::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--phosphor);
+      border-radius: 2px;
+      animation: pulse 2s ease-in-out infinite;
     }
 
     footer p {
@@ -1586,10 +1754,11 @@
     footer a {
       color: var(--phosphor);
       text-decoration: none;
+      transition: all 0.2s;
     }
 
     footer a:hover {
-      text-decoration: underline;
+      text-shadow: 0 0 10px var(--phosphor-glow);
     }
 
     .footer-links {
@@ -1600,11 +1769,14 @@
     .footer-links a {
       color: var(--text-secondary);
       font-size: 0.875rem;
-      transition: color 0.2s;
+      transition: all 0.2s;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
     }
 
     .footer-links a:hover {
       color: var(--phosphor);
+      background: var(--phosphor-glow);
     }
 
     /* Responsive */
@@ -1808,7 +1980,7 @@
           <div class="hero-actions">
             <div class="install-box">
               <code><span class="prompt">$</span> npm install -g <span class="pkg">github:asharahmed/qr-cli</span></code>
-              <button class="copy-btn" onclick="copyToClipboard('npm install -g github:asharahmed/qr-cli')" title="Copy to clipboard">
+              <button class="copy-btn" onclick="copyToClipboard('npm install -g github:asharahmed/qr-cli', this)" title="Copy to clipboard">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
@@ -2173,7 +2345,7 @@
           <div class="example-block">
             <div class="example-label">
               Basic Usage
-              <button class="example-copy" onclick="copyToClipboard('qr \"https://example.com\"')">
+              <button class="example-copy" onclick="copyToClipboard('qr \"https://example.com\"', this)">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
@@ -2187,7 +2359,7 @@
           <div class="example-block">
             <div class="example-label">
               Light Terminal Mode
-              <button class="example-copy" onclick="copyToClipboard('qr \"Hello World\" -i')">
+              <button class="example-copy" onclick="copyToClipboard('qr \"Hello World\" -i', this)">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
@@ -2201,7 +2373,7 @@
           <div class="example-block">
             <div class="example-label">
               Large Display
-              <button class="example-copy" onclick="copyToClipboard('qr \"Hello World\" -l')">
+              <button class="example-copy" onclick="copyToClipboard('qr \"Hello World\" -l', this)">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
@@ -2215,7 +2387,7 @@
           <div class="example-block">
             <div class="example-label">
               Save as PNG
-              <button class="example-copy" onclick="copyToClipboard('qr \"https://example.com\" -o qrcode.png')">
+              <button class="example-copy" onclick="copyToClipboard('qr \"https://example.com\" -o qrcode.png', this)">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
@@ -2229,7 +2401,7 @@
           <div class="example-block">
             <div class="example-label">
               Piped Input
-              <button class="example-copy" onclick="copyToClipboard('echo \"secret message\" | qr')">
+              <button class="example-copy" onclick="copyToClipboard('echo \"secret message\" | qr', this)">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
@@ -2253,7 +2425,7 @@
         <p>Install QR-CLI globally and start creating QR codes in seconds. Free and open source, forever.</p>
         <div class="cta-install">
           <code><span class="prompt">$</span> npm install -g <span class="pkg">github:asharahmed/qr-cli</span></code>
-          <button class="copy-btn" onclick="copyToClipboard('npm install -g github:asharahmed/qr-cli')" title="Copy to clipboard">
+          <button class="copy-btn" onclick="copyToClipboard('npm install -g github:asharahmed/qr-cli', this)" title="Copy to clipboard">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
               <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
@@ -2310,10 +2482,19 @@
       setTimeout(() => toast.classList.remove('show'), 2000);
     }
 
-    // Copy to clipboard
-    function copyToClipboard(text) {
+    // Copy to clipboard with button animation
+    function copyToClipboard(text, button) {
       navigator.clipboard.writeText(text);
       showToast('Copied to clipboard');
+
+      // Find the clicked button if not passed
+      if (!button && event && event.currentTarget) {
+        button = event.currentTarget;
+      }
+      if (button && button.classList) {
+        button.classList.add('copied');
+        setTimeout(() => button.classList.remove('copied'), 600);
+      }
     }
 
     // Mobile menu
@@ -2653,6 +2834,76 @@
         }
       });
     });
+
+    // Animated stats counter
+    function animateValue(element, start, end, duration, suffix = '') {
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+        element.textContent = Math.floor(easeProgress * (end - start) + start) + suffix;
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+
+    // Observe stats section for animation trigger
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const stats = entry.target.querySelectorAll('.stat-value');
+          stats.forEach(stat => {
+            const target = stat.dataset.target;
+            if (target && !stat.dataset.animated) {
+              stat.dataset.animated = 'true';
+              if (target === '1') {
+                animateValue(stat, 0, 1, 1200, 's');
+                setTimeout(() => { stat.textContent = '<1s'; }, 1400);
+              } else {
+                animateValue(stat, 0, parseInt(target), 1200);
+              }
+            }
+          });
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const usageStats = document.querySelector('.usage-stats');
+    if (usageStats) {
+      statsObserver.observe(usageStats);
+    }
+
+    // Enhanced demo button feedback
+    const generateBtn = document.querySelector('.demo-btn-generate');
+    if (generateBtn) {
+      const originalGenerateQR = generateDemoQR;
+      generateDemoQR = function() {
+        generateBtn.style.transform = 'scale(0.95)';
+        generateBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 0.8s linear infinite;">
+            <circle cx="12" cy="12" r="10" stroke-dasharray="40" stroke-dashoffset="10"></circle>
+          </svg>
+          Generating...
+        `;
+        setTimeout(() => {
+          originalGenerateQR();
+          generateBtn.style.transform = '';
+          generateBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+            </svg>
+            Generate QR
+          `;
+        }, 200);
+      };
+    }
   </script>
 </body>
 </html>
