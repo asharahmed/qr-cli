@@ -2,6 +2,7 @@
 <img src="docs/logo.svg" alt="qr-cli logo" width="96" height="96" />
 
 Generate QR codes in your terminal or save them as PNG files.
+Short description: A fast, minimal CLI for generating terminal and PNG QR codes.
 
 ## Features
 - Render QR codes in the terminal
