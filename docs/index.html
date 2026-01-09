@@ -31,6 +31,7 @@
       --border-hover: #2a2a2a;
       --grid-line: rgba(0, 255, 65, 0.03);
       --scanline: rgba(0, 0, 0, 0.02);
+      --nav-bg: rgba(5, 5, 5, 0.85);
     }
 
     body.theme-light {
@@ -53,6 +54,7 @@
       --border-hover: #c3c9d6;
       --grid-line: rgba(12, 122, 45, 0.08);
       --scanline: rgba(0, 0, 0, 0.04);
+      --nav-bg: rgba(246, 247, 251, 0.9);
     }
 
     * {
@@ -200,7 +202,7 @@
       left: 0;
       right: 0;
       padding: 1.25rem 0;
-      background: rgba(5, 5, 5, 0.85);
+      background: var(--nav-bg);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       z-index: 100;
@@ -223,6 +225,10 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+    }
+
+    body.theme-light .logo {
+      text-shadow: none;
     }
 
     .logo-icon {
