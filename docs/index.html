@@ -67,6 +67,11 @@
       scroll-behavior: smooth;
     }
 
+    html, body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
     body {
       font-family: 'JetBrains Mono', monospace;
       background: var(--bg-primary);
@@ -530,6 +535,8 @@
       gap: 1.25rem;
       font-size: 0.9375rem;
       transition: all 0.2s;
+      flex-wrap: wrap;
+      max-width: 100%;
     }
 
     .install-box:hover {
@@ -539,6 +546,8 @@
 
     .install-box code {
       color: var(--text-primary);
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .install-box .prompt {
@@ -654,6 +663,7 @@
       position: relative;
       transform: rotateY(-2deg) rotateX(2deg);
       transition: transform 0.4s ease-out;
+      max-width: 100%;
     }
 
     .terminal:hover {
@@ -716,6 +726,7 @@
       min-height: 400px;
       position: relative;
       z-index: 1;
+      overflow-x: auto;
     }
 
     .terminal-line {
@@ -765,6 +776,7 @@
       opacity: 0;
       animation: revealQR 0.8s ease-out 2.6s forwards;
       letter-spacing: 0.02em;
+      overflow-x: auto;
     }
 
     @keyframes revealQR {
@@ -982,12 +994,14 @@
       border-radius: 10px;
       padding: 0.75rem 1rem;
       margin-bottom: 1.5rem;
+      flex-wrap: wrap;
     }
 
     .demo-command code {
       color: var(--text-primary);
       font-size: 0.875rem;
       word-break: break-all;
+      overflow-wrap: anywhere;
     }
 
     .demo-command .prompt {
@@ -1420,6 +1434,8 @@
     .example-code {
       padding: 1.125rem 1.25rem;
       font-size: 0.9375rem;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .example-code .prompt {
@@ -1444,6 +1460,7 @@
       padding: 10rem 0;
       text-align: center;
       position: relative;
+      overflow: hidden;
     }
 
     .cta::before {
@@ -1491,6 +1508,9 @@
       gap: 1.5rem;
       font-size: 1.125rem;
       transition: all 0.2s;
+      flex-wrap: wrap;
+      max-width: 100%;
+      justify-content: center;
     }
 
     .cta-install:hover {
@@ -1500,6 +1520,8 @@
 
     .cta-install code {
       color: var(--text-primary);
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .cta-install .prompt {
@@ -1645,6 +1667,10 @@
 
       .install-box {
         justify-content: space-between;
+      }
+
+      .qr-output {
+        font-size: 0.55rem;
       }
 
       .footer-content {
