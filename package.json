@@ -17,6 +17,7 @@
     "terminal"
   ],
   "license": "MIT",
+  "repository": "https://github.com/asharahmed/qr-cli",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
