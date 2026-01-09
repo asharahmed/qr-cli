@@ -3,6 +3,7 @@
   "version": "1.1.2",
   "description": "Generate QR codes in your terminal",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
     "qr": "bin/qr"
   },
@@ -21,6 +22,11 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
+  "files": [
+    "bin",
+    "dist",
+    "README.md"
+  ],
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/qrcode": "^1.5.6",
