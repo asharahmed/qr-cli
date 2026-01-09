@@ -1,7 +1,5 @@
 # QR CLI
-![qr-cli logo](docs/logo.svg)
-
-Note: This project is not related to the npm package named `qr-cli` on npmjs.org.
+<img src="docs/logo.svg" alt="qr-cli logo" width="96" height="96" />
 
 Generate QR codes in your terminal or save them as PNG files.
 
@@ -11,13 +9,19 @@ Generate QR codes in your terminal or save them as PNG files.
 - Save QR codes as PNG files
 - Invert colors or use large rendering
 
+## Install (no PAT required)
+Install directly from the public GitHub repo:
+```bash
+npm install -g github:asharahmed/qr-cli
+```
+
 ## Install (GitHub Packages)
-1) Configure npm to use GitHub Packages for the @asharahmed scope:
+If you prefer GitHub Packages, configure npm for the @asharahmed scope:
 ```bash
 npm config set @asharahmed:registry https://npm.pkg.github.com
 ```
 
-2) Install the CLI:
+Then install the CLI (GitHub Packages requires auth):
 ```bash
 npm install -g @asharahmed/qr-cli
 ```
