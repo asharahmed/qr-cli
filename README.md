@@ -16,17 +16,6 @@ Install directly from the public GitHub repo:
 npm install -g github:asharahmed/qr-cli
 ```
 
-## Install (GitHub Packages)
-Configure npm for the @asharahmed scope:
-```bash
-npm config set @asharahmed:registry https://npm.pkg.github.com
-```
-
-Then install the CLI:
-```bash
-npm install -g @asharahmed/qr-cli
-```
-
 ## Usage
 ```bash
 qr "https://example.com"
