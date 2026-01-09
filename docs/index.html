@@ -80,6 +80,11 @@
       overflow-x: hidden;
     }
 
+    code {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
     /* Floating particles */
     .particles {
       position: fixed;
@@ -1636,12 +1641,24 @@
     }
 
     @media (max-width: 768px) {
+      nav .container {
+        padding: 0 1.25rem;
+      }
+
       .nav-links {
         display: none;
       }
 
       .mobile-menu-btn {
         display: flex;
+      }
+
+      .github-link {
+        display: none;
+      }
+
+      .nav-right {
+        gap: 0.5rem;
       }
 
       .mobile-menu {
