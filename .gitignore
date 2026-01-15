@@ -1,5 +1,19 @@
 node_modules/
 .DS_Store
 .claude/
-# build artifacts
+
+# Build artifacts
 build/
+dist/
+
+# Docs website build
+docs/node_modules/
+docs/dist/
+docs/stats.html
+
+# Backup files
+*.bak
+
+# Environment
+.env
+.env.local
