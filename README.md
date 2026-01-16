@@ -37,6 +37,8 @@ npm install -g github:asharahmed/qr-cli
 Prefer a binary? Download from [Releases](https://github.com/asharahmed/qr-cli/releases).
 
 ## Release Binaries
+Pick your OS, then grab the asset from GitHub Releases.
+
 Supported targets:
 - Linux: x64, arm64
 - macOS: x64, arm64, universal
@@ -46,11 +48,13 @@ Universal installers (auto-pick the right binary):
 - Linux: `qr-linux-universal.sh`
 - Windows: `qr-windows-universal.ps1`
 
-Grab them from the GitHub Releases assets and run locally:
+Linux (latest release):
 ```bash
 curl -fsSL -o qr-linux-universal.sh https://github.com/asharahmed/qr-cli/releases/latest/download/qr-linux-universal.sh
 bash qr-linux-universal.sh
 ```
+
+Windows (latest release):
 ```powershell
 Invoke-WebRequest -Uri https://github.com/asharahmed/qr-cli/releases/latest/download/qr-windows-universal.ps1 -OutFile qr-windows-universal.ps1
 powershell -ExecutionPolicy Bypass -File qr-windows-universal.ps1 -AddToPath
@@ -59,14 +63,6 @@ powershell -ExecutionPolicy Bypass -File qr-windows-universal.ps1 -AddToPath
 Defaults:
 - Linux installs to `$HOME/.local/bin` (override with `--dir /path`)
 - Windows installs to `%LOCALAPPDATA%\\qr-cli\\bin` (override with `-InstallDir "C:\\path"`)
-
-Example usage:
-```bash
-bash qr-linux-universal.sh
-```
-```powershell
-powershell -ExecutionPolicy Bypass -File qr-windows-universal.ps1 -AddToPath
-```
 
 Latest version: see the GitHub Releases page.
 
