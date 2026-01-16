@@ -47,6 +47,13 @@ function main() {
   } else {
     console.log('No demo GIF query string found in README.');
   }
+
+  try {
+    run(`git add "${gifPath}" "${readmePath}"`);
+    console.log('Staged updated demo GIF and README.');
+  } catch {
+    console.warn('Failed to stage files automatically.');
+  }
 }
 
 main();
