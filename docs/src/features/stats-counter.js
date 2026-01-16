@@ -28,6 +28,14 @@ function animateValue(element, start, end, duration, suffix = '') {
  * Initialize stats counter animations
  */
 export function initStatsCounter() {
+  // Update dependency count from build-time injected value
+  const dependencyStat = document.querySelector('[data-stat="dependencies"]');
+  if (dependencyStat) {
+    const count = typeof __DEPENDENCY_COUNT__ !== 'undefined' ? __DEPENDENCY_COUNT__ : 2;
+    dependencyStat.dataset.target = count;
+    dependencyStat.textContent = count;
+  }
+
   const statsObserver = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {

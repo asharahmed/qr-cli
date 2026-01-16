@@ -2,6 +2,7 @@
 [![Release](https://img.shields.io/github/v/release/asharahmed/qr-cli)](https://github.com/asharahmed/qr-cli/releases)
 [![GitHub Packages](https://img.shields.io/badge/GitHub%20Packages-@asharahmed/qr--cli-blue)](https://github.com/asharahmed/qr-cli/packages)
 [![Build](https://img.shields.io/github/actions/workflow/status/asharahmed/qr-cli/deploy.yml?label=docs)](https://github.com/asharahmed/qr-cli/actions/workflows/deploy.yml)
+[![Dependencies](https://img.shields.io/badge/dependencies-2-green)](package.json)
 [![License](https://img.shields.io/github/license/asharahmed/qr-cli)](LICENSE)
 
 <img src="docs/logo.svg" alt="qr-cli logo" width="96" height="96" />
@@ -9,6 +10,8 @@
 ![CLI demo](docs/cli-demo.gif?v=7)
 
 A fast, minimal CLI for generating terminal and PNG QR codes.
+
+**[Try it online](https://qr-cli.dev/#try-it)** | **[Website](https://qr-cli.dev)**
 
 ## Features
 - Render QR codes in the terminal
