@@ -14,14 +14,14 @@ Sleep 2s
 Type 'qr --format svg -o demo.svg "Hello QR"'
 Enter
 Sleep 2s
-Type "ls demo.svg"
+Type "head -n 3 demo.svg"
 Enter
 Sleep 2s
 
 Type 'qr --format png -o demo.png "Hello QR"'
 Enter
 Sleep 2s
-Type "ls demo.png"
+Type "imgcat demo.png"
 Enter
 Sleep 2s
 TAPE
