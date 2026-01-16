@@ -30,12 +30,20 @@ echo "hello world" | qr
 | --- | --- |
 | `-i, --invert` | Invert colors (for light terminals) |
 | `-l, --large` | Use large mode (2 chars per module) |
-| `-o, --output <file>` | Save as PNG file |
+| `-e, --error <level>` | Error correction level: L, M, Q, H |
+| `--format <format>` | Output format: text, png, svg |
+| `--size <px>` | PNG size in pixels |
+| `--margin <px>` | Quiet zone margin in modules |
+| `--raw` | Do not trim input |
+| `--quiet` | Suppress non-essential output |
+| `-o, --output <file>` | Save output to file, or use `-` for stdout |
 
 ## Examples
 ```bash
 qr -l "Hello from the terminal"
 qr -o code.png "https://example.com"
+qr --format svg -o code.svg "https://example.com"
+echo "secret message" | qr --format png -o -
 echo "secret message" | qr -i
 ```
 
