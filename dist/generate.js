@@ -4,10 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateQRMatrix = generateQRMatrix;
-exports.generateQRPng = generateQRPng;
+exports.generateQRPngBuffer = generateQRPngBuffer;
+exports.generateQRPngToFile = generateQRPngToFile;
+exports.generateQRSvg = generateQRSvg;
 const qrcode_1 = __importDefault(require("qrcode"));
-async function generateQRMatrix(text) {
-    const qr = await qrcode_1.default.create(text, { errorCorrectionLevel: 'M' });
+async function generateQRMatrix(text, options = {}) {
+    const qr = await qrcode_1.default.create(text, {
+        errorCorrectionLevel: options.errorCorrectionLevel ?? 'M',
+    });
     const size = qr.modules.size;
     const data = [];
     for (let y = 0; y < size; y++) {
@@ -19,10 +23,26 @@ async function generateQRMatrix(text) {
     }
     return { data, size };
 }
-async function generateQRPng(text, outputPath) {
+async function generateQRPngBuffer(text, options = {}) {
+    return qrcode_1.default.toBuffer(text, {
+        type: 'png',
+        width: options.width ?? 400,
+        margin: options.margin ?? 2,
+        errorCorrectionLevel: options.errorCorrectionLevel ?? 'M',
+    });
+}
+async function generateQRPngToFile(text, outputPath, options = {}) {
     await qrcode_1.default.toFile(outputPath, text, {
         type: 'png',
-        width: 400,
-        margin: 2,
+        width: options.width ?? 400,
+        margin: options.margin ?? 2,
+        errorCorrectionLevel: options.errorCorrectionLevel ?? 'M',
+    });
+}
+async function generateQRSvg(text, options = {}) {
+    return qrcode_1.default.toString(text, {
+        type: 'svg',
+        margin: options.margin ?? 2,
+        errorCorrectionLevel: options.errorCorrectionLevel ?? 'M',
     });
 }
