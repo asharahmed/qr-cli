@@ -14,9 +14,17 @@ jobs:
   build-win-arm64:
     name: Build qr-win-arm64.exe
     runs-on: [self-hosted, windows, arm64]
+    env:
+      NPM_CONFIG_CACHE: C:\actions-runner\_npm-cache
+      PKG_CACHE_PATH: C:\actions-runner\_pkg-cache
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Ensure caches
+        run: |
+          New-Item -ItemType Directory -Force -Path $env:NPM_CONFIG_CACHE | Out-Null
+          New-Item -ItemType Directory -Force -Path $env:PKG_CACHE_PATH | Out-Null
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
