@@ -3,6 +3,12 @@ name: Build Release Binaries
 on:
   release:
     types: [created]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to attach assets to (e.g. v1.1.4)
+        required: true
+        default: v1.1.4
 
 permissions:
   contents: write
@@ -18,6 +24,9 @@ jobs:
           - os: ubuntu-latest
             target: node18-linux-x64
             asset: qr-linux-x64
+          - os: ubuntu-latest
+            target: node18-linux-arm64
+            asset: qr-linux-arm64
           - os: windows-latest
             target: node18-win-x64
             asset: qr-win-x64.exe
@@ -45,9 +54,9 @@ jobs:
         run: npm run build
 
       - name: Build binary
-        run: npx pkg dist/index.js --targets ${{ matrix.target }} --output release/${{ github.ref_name }}/${{ matrix.asset }}
+        run: npx pkg dist/index.js --targets ${{ matrix.target }} --output release/${{ inputs.tag || github.ref_name }}/${{ matrix.asset }}
 
       - name: Upload release asset
         uses: softprops/action-gh-release@v2
         with:
-          files: release/${{ github.ref_name }}/${{ matrix.asset }}
+          files: release/${{ inputs.tag || github.ref_name }}/${{ matrix.asset }}
