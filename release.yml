@@ -5,6 +5,7 @@ targets:
   linux:
     - qr-linux-x64
     - qr-linux-arm64
+    - qr-linux-universal.sh
   macos:
     - qr-macos-x64
     - qr-macos-arm64
@@ -12,6 +13,7 @@ targets:
   windows:
     - qr-win-x64.exe
     - qr-win-arm64.exe
+    - qr-windows-universal.ps1
 
 automation:
   release_workflow: .github/workflows/release-binaries.yml

@@ -11,11 +11,9 @@ if (!tag || !/^v\d+\.\d+\.\d+$/.test(tag)) {
 const notes = `Release ${tag}
 
 Automated binaries are built by GitHub Actions:
-- linux x64/arm64
+- linux x64/arm64 + universal installer
 - macos x64/arm64 + universal
-- windows x64
-
-Windows ARM64 is built separately via the self-hosted runner.`;
+- windows x64/arm64 + universal installer`;
 
 function run(cmd) {
   execSync(cmd, { stdio: 'inherit' });

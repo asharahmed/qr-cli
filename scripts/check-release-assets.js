@@ -4,10 +4,13 @@ const { execSync } = require('node:child_process');
 const REQUIRED_ASSETS = [
   'qr-linux-x64',
   'qr-linux-arm64',
+  'qr-linux-universal.sh',
   'qr-macos-x64',
   'qr-macos-arm64',
   'qr-macos-universal',
   'qr-win-x64.exe',
+  'qr-win-arm64.exe',
+  'qr-windows-universal.ps1',
 ];
 
 function run(cmd) {

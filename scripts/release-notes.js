@@ -38,11 +38,15 @@ function main() {
   console.log(`## Changes\n`);
   if (!lines.length) {
     console.log('- No changes detected.');
-    return;
+  } else {
+    for (const line of lines) {
+      console.log(`- ${line}`);
+    }
   }
-  for (const line of lines) {
-    console.log(`- ${line}`);
-  }
+
+  console.log(`\n## Universal installers\n`);
+  console.log('- Linux: qr-linux-universal.sh');
+  console.log('- Windows: qr-windows-universal.ps1');
 }
 
 main();
