@@ -1,0 +1,53 @@
+name: Build Release Binaries
+
+on:
+  release:
+    types: [created]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build ${{ matrix.asset }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: node18-linux-x64
+            asset: qr-linux-x64
+          - os: windows-latest
+            target: node18-win-x64
+            asset: qr-win-x64.exe
+          - os: macos-latest
+            target: node18-macos-x64
+            asset: qr-macos-x64
+          - os: macos-latest
+            target: node18-macos-arm64
+            asset: qr-macos-arm64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build dist
+        run: npm run build
+
+      - name: Build binary
+        run: npx pkg dist/index.js --targets ${{ matrix.target }} --output release/${{ github.ref_name }}/${{ matrix.asset }}
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/${{ github.ref_name }}/${{ matrix.asset }}
