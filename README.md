@@ -1,4 +1,9 @@
 # QR CLI
+[![Release](https://img.shields.io/github/v/release/asharahmed/qr-cli)](https://github.com/asharahmed/qr-cli/releases)
+[![GitHub Packages](https://img.shields.io/badge/GitHub%20Packages-@asharahmed/qr--cli-blue)](https://github.com/asharahmed/qr-cli/packages)
+[![Build](https://img.shields.io/github/actions/workflow/status/asharahmed/qr-cli/deploy.yml?label=docs)](https://github.com/asharahmed/qr-cli/actions/workflows/deploy.yml)
+[![License](https://img.shields.io/github/license/asharahmed/qr-cli)](LICENSE)
+
 <img src="docs/logo.svg" alt="qr-cli logo" width="96" height="96" />
 
 A fast, minimal CLI for generating terminal and PNG QR codes.
@@ -16,8 +21,24 @@ Install directly from the public GitHub repo:
 npm install -g github:asharahmed/qr-cli
 ```
 
+Install from GitHub Packages (requires a GitHub PAT with `read:packages`):
+```bash
+npm config set @asharahmed:registry https://npm.pkg.github.com
+npm login --registry=https://npm.pkg.github.com --scope=@asharahmed
+npm install -g @asharahmed/qr-cli
+```
+
 Prefer a binary? Download one from the Releases page:
 https://github.com/asharahmed/qr-cli/releases
+
+## Release Binaries
+Supported targets:
+- Linux: x64, arm64
+- macOS: x64, arm64, universal
+- Windows: x64
+- Windows ARM64: available when built via a self-hosted ARM64 runner
+
+Latest version: see the GitHub Releases page.
 
 ## Quick start
 ```bash
