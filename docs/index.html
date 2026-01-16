@@ -55,10 +55,13 @@
   </script>
 </head>
 <body>
-  <div class="particles" id="particles"></div>
-  <div class="grid-bg"></div>
-  <div class="scanlines"></div>
-  <div class="toast" id="toast">
+  <!-- Skip to main content link for keyboard users -->
+  <a href="#try-it" class="skip-link">Skip to demo</a>
+
+  <div class="particles" id="particles" aria-hidden="true"></div>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <polyline points="20 6 9 17 4 12"></polyline>
     </svg>
@@ -116,6 +119,7 @@
     <a href="https://github.com/asharahmed/qr-cli" target="_blank">GitHub</a>
   </div>
 
+  <main id="main-content">
   <!-- Hero Section -->
   <section class="hero">
     <div class="container">
@@ -153,9 +157,9 @@
         <div class="terminal-wrapper">
           <div class="terminal">
             <div class="terminal-header">
-              <span class="terminal-dot red" aria-label="Close" role="img"></span>
-              <span class="terminal-dot yellow" aria-label="Minimize" role="img"></span>
-              <span class="terminal-dot green" aria-label="Maximize" role="img"></span>
+              <span class="terminal-dot red" aria-hidden="true"></span>
+              <span class="terminal-dot yellow" aria-hidden="true"></span>
+              <span class="terminal-dot green" aria-hidden="true"></span>
               <span class="terminal-title">zsh</span>
             </div>
             <div class="terminal-body">
@@ -191,7 +195,7 @@
         <div class="demo-input-section">
           <h3>Enter your text <span>or URL</span></h3>
           <input type="text" class="demo-input" id="demoInput" placeholder="Enter text or URL — press Enter to generate" value="https://qr-cli.dev" aria-label="Text or URL to generate a QR code">
-          <div class="demo-hint" id="demoHint">Ready - 0 chars - Error correction M</div>
+          <div class="demo-hint" id="demoHint" aria-live="polite">Ready - 0 chars - Error correction M</div>
           <div class="demo-options">
             <label class="demo-option" id="optionInvert">
               <input type="checkbox" id="invertCheck">
@@ -597,6 +601,7 @@
       </div>
     </div>
   </section>
+  </main>
 
   <!-- Footer -->
   <footer>

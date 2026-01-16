@@ -1,4 +1,5 @@
 import { showToast } from '../../utils/toast.js';
+import { QR_CAPACITY, CAPACITY_THRESHOLDS } from '../../config/constants.js';
 import { demoState, initDemoState } from './state.js';
 import { updateCommandPreview } from './command-preview.js';
 import { renderQRToText, renderQRToCanvas, getQRMetadata } from './qr-renderer.js';
@@ -8,12 +9,24 @@ import { initControls } from './controls.js';
 import { initInputHandlers } from './input-handler.js';
 
 /**
+ * Get capacity status for display
+ */
+function getCapacityStatus(text, level) {
+  const maxCapacity = QR_CAPACITY[level] || QR_CAPACITY.M;
+  const byteLength = new TextEncoder().encode(text).length;
+  const percentage = Math.round((byteLength / maxCapacity) * 100);
+
+  return { percentage, byteLength, maxCapacity };
+}
+
+/**
  * Generate demo QR code
  */
 function generateDemoQR() {
   const { demoInput, demoQR, demoHint, demoMeta, invertCheck, largeCheck, errorLevel } = demoState;
 
   const text = demoInput?.value || 'https://qr-cli.dev';
+  const level = errorLevel?.value || 'M';
 
   try {
     // Render ASCII QR
@@ -32,10 +45,29 @@ function generateDemoQR() {
     // Render canvas for PNG download
     renderQRToCanvas(text);
 
-    // Update metadata
+    // Update metadata with capacity info
     const meta = getQRMetadata(text);
+    const capacity = getCapacityStatus(text, level);
+
     if (meta && demoHint) {
-      demoHint.textContent = `${demoInput?.value ? 'Ready' : 'Using default'} - ${meta.textLength} chars - Error correction ${meta.errorLevel}`;
+      const baseText = demoInput?.value ? 'Ready' : 'Using default';
+      let hintText;
+
+      if (capacity.percentage >= CAPACITY_THRESHOLDS.CRITICAL) {
+        hintText = `${capacity.percentage}% capacity - ${capacity.byteLength} bytes - Error correction ${meta.errorLevel}`;
+      } else {
+        hintText = `${baseText} - ${capacity.byteLength} bytes - Error correction ${meta.errorLevel}`;
+      }
+
+      demoHint.textContent = hintText;
+
+      // Update styling based on capacity
+      demoHint.classList.remove('capacity-warning', 'capacity-critical');
+      if (capacity.percentage >= CAPACITY_THRESHOLDS.CRITICAL) {
+        demoHint.classList.add('capacity-critical');
+      } else if (capacity.percentage >= CAPACITY_THRESHOLDS.WARNING) {
+        demoHint.classList.add('capacity-warning');
+      }
     }
 
     if (meta && demoMeta) {
@@ -52,8 +84,16 @@ function generateDemoQR() {
 
     showToast('QR code generated!');
   } catch (e) {
-    showToast('Error: Text too long or invalid');
-    if (demoHint) demoHint.textContent = 'Error - Text too long or invalid';
+    // Better error message with actionable suggestion
+    const errorMsg = 'Text too long for QR code';
+    const suggestion = 'Try shorter text or lower error correction level';
+
+    showToast(`Error: ${errorMsg}`);
+    if (demoHint) {
+      demoHint.textContent = `Error - ${errorMsg}. ${suggestion}`;
+      demoHint.classList.remove('capacity-warning');
+      demoHint.classList.add('capacity-critical');
+    }
     if (demoMeta) demoMeta.innerHTML = '';
   }
 }

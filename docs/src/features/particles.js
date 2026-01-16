@@ -2,6 +2,28 @@ import { CONFIG } from '../config/constants.js';
 import { safeQuery } from '../utils/error-handler.js';
 
 /**
+ * Check if user prefers reduced motion
+ */
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+/**
+ * Check if device is low-end or mobile
+ * Reduces particle count for better performance
+ */
+function isLowEndDevice() {
+  // Check for mobile viewport
+  const isMobile = window.innerWidth < 768;
+
+  // Check hardware concurrency (CPU cores)
+  const cores = navigator.hardwareConcurrency || 2;
+  const isLowSpec = cores <= 4;
+
+  return isMobile || isLowSpec;
+}
+
+/**
  * Create QR-inspired floating particle effects
  * Uses square shapes of varying sizes to evoke QR code modules
  */
@@ -9,7 +31,16 @@ export function createParticles() {
   const container = safeQuery('#particles');
   if (!container) return;
 
-  const particleCount = CONFIG.PARTICLE_COUNT;
+  // Skip particles entirely if user prefers reduced motion
+  if (prefersReducedMotion()) {
+    container.style.display = 'none';
+    return;
+  }
+
+  // Reduce particles on mobile/low-end devices for better performance
+  const particleCount = isLowEndDevice()
+    ? Math.floor(CONFIG.PARTICLE_COUNT / 2)
+    : CONFIG.PARTICLE_COUNT;
 
   // QR-inspired size variations (modules are square)
   const sizes = [3, 4, 5, 6, 8];

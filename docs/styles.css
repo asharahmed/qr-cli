@@ -1,4 +1,5 @@
 :root {
+  /* Colors */
   --bg-primary: #030304;
   --bg-secondary: #08090b;
   --bg-tertiary: #0d0f12;
@@ -19,6 +20,25 @@
   --grid-line: rgba(0, 255, 136, 0.025);
   --scanline: rgba(0, 0, 0, 0.015);
   --nav-bg: rgba(3, 3, 4, 0.88);
+
+  /* Transitions */
+  --transition-fast: 0.15s;
+  --transition-normal: 0.25s;
+  --transition-slow: 0.4s;
+
+  /* Border radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  /* Z-index scale */
+  --z-base: 1;
+  --z-dropdown: 10;
+  --z-sticky: 50;
+  --z-fixed: 90;
+  --z-modal-backdrop: 100;
+  --z-modal: 1000;
+  --z-tooltip: 2000;
 }
 
 body.theme-light {
@@ -48,6 +68,43 @@ body.theme-light {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Skip link for keyboard navigation */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--phosphor);
+  color: var(--bg-primary);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0 0 8px 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  z-index: 9999;
+  transition: top 0.3s;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: none;
+}
+
+/* Global focus indicator for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--phosphor);
+  outline-offset: 2px;
+}
+
+/* Remove default outline for elements with custom focus styles */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--phosphor);
+  outline-offset: 2px;
 }
 
 html {
@@ -1076,6 +1133,16 @@ body.theme-light .hero h1 .highlight {
   font-size: 0.75rem;
   color: var(--text-dim);
   margin-bottom: 1rem;
+  transition: color var(--transition-fast);
+}
+
+.demo-hint.capacity-warning {
+  color: var(--amber);
+}
+
+.demo-hint.capacity-critical {
+  color: var(--red);
+  font-weight: 500;
 }
 
 .demo-options {
