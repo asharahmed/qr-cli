@@ -54,6 +54,22 @@ function main() {
   } catch {
     console.warn('Failed to stage files automatically.');
   }
+
+  try {
+    run('git commit -m "docs: update CLI demo gif" -m "Refresh the README demo recording."');
+    console.log('Committed demo GIF update.');
+  } catch {
+    console.warn('Failed to auto-commit (nothing to commit or git not configured).');
+  }
+
+  if (process.env.AUTO_PUSH === '1') {
+    try {
+      run('git push');
+      console.log('Pushed demo GIF update.');
+    } catch {
+      console.warn('Failed to auto-push.');
+    }
+  }
 }
 
 main();
