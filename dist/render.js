@@ -8,10 +8,10 @@ const BLOCKS = {
     EMPTY: ' ',
 };
 function renderQRCode(matrix, options = {}) {
-    const { invert = false, small = true } = options;
+    const { invert = false, small = true, border = 2 } = options;
     const { data, size } = matrix;
     // Add quiet zone (border)
-    const quietZone = 2;
+    const quietZone = border;
     const paddedSize = size + quietZone * 2;
     const padded = [];
     for (let y = 0; y < paddedSize; y++) {

@@ -17,6 +17,7 @@ program
     .description('Generate QR codes in your terminal')
     .version(package_json_1.default.version)
     .argument('[text]', 'Text or URL to encode')
+    .option('-f, --file <path>', 'Read input from a file')
     .option('-i, --invert', 'Invert colors (for light terminals)')
     .option('-l, --large', 'Use large mode (2 chars per module)')
     .addOption(new commander_1.Option('-e, --error <level>', 'Error correction level')
@@ -25,6 +26,7 @@ program
     .option('--format <format>', 'Output format: text, png, svg')
     .option('--size <px>', 'PNG size in pixels', (value) => Number.parseInt(value, 10))
     .option('--margin <px>', 'Quiet zone margin in modules', (value) => Number.parseInt(value, 10))
+    .option('--border <modules>', 'Text output quiet zone (modules)', (value) => Number.parseInt(value, 10))
     .option('--raw', 'Do not trim input')
     .option('--quiet', 'Suppress non-essential output')
     .option('-o, --output <file>', 'Save output to file, or use "-" for stdout')
@@ -32,6 +34,9 @@ program
     try {
         // Read from stdin if no text provided
         let input = text;
+        if (options.file) {
+            input = await promises_1.default.readFile(options.file, 'utf8');
+        }
         if (!input) {
             input = await readStdin();
         }
@@ -46,14 +51,18 @@ program
             console.error('Usage: qr <text> or echo "text" | qr');
             process.exit(1);
         }
-        const errorLevel = options.error;
+        const errorLevel = String(options.error).toUpperCase();
         const format = resolveFormat(options.format, options.output);
         const outputPath = options.output;
+        const border = options.border;
         if (options.size !== undefined && (Number.isNaN(options.size) || options.size <= 0)) {
             throw new Error('Invalid --size value. Use a positive integer.');
         }
         if (options.margin !== undefined && (Number.isNaN(options.margin) || options.margin < 0)) {
             throw new Error('Invalid --margin value. Use 0 or a positive integer.');
+        }
+        if (border !== undefined && (Number.isNaN(border) || border < 0)) {
+            throw new Error('Invalid --border value. Use 0 or a positive integer.');
         }
         const generateOptions = {
             errorCorrectionLevel: errorLevel,
@@ -95,6 +104,7 @@ program
         const rendered = (0, render_1.renderQRCode)(matrix, {
             invert: options.invert,
             small: !options.large,
+            border: border,
         });
         if (outputPath && outputPath !== '-') {
             await ensureWritableFilePath(outputPath);

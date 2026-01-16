@@ -15,8 +15,9 @@ targets:
 
 automation:
   release_workflow: .github/workflows/release-binaries.yml
+  win_arm64_hosted_workflow: .github/workflows/release-win-arm64-hosted.yml
   win_arm64_workflow: .github/workflows/release-win-arm64.yml
   win_arm64_notes: >
-    Windows ARM64 builds require a self-hosted Windows ARM64 runner
-    (labels: self-hosted, windows, arm64). Trigger the workflow manually
-    when the VM is online.
+    Windows ARM64 builds run on the hosted windows-11-arm runner when available.
+    If the hosted runner is unavailable, the scheduled fallback triggers the
+    self-hosted Windows ARM64 runner (labels: self-hosted, windows, arm64).
