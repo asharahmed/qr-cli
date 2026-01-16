@@ -6,6 +6,7 @@ node_modules/
 build/
 dist/
 release/
+blocker.md
 
 # Docs website build
 docs/node_modules/

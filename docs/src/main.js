@@ -20,6 +20,7 @@ import { initScrollAnimations } from './features/scroll-animations.js';
 import { initActiveNavLink } from './features/active-nav.js';
 import { initStatsCounter } from './features/stats-counter.js';
 import { initDemoButtonFeedback } from './features/demo-feedback.js';
+import { initVersionBadge } from './features/version-badge.js';
 
 // Import global API
 import { setupGlobalAPI } from './api/global-api.js';
@@ -42,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initActiveNavLink();
     initStatsCounter();
     initDemoButtonFeedback();
+    initVersionBadge();
   } catch (err) {
     console.error('Initialization error:', err);
   }
