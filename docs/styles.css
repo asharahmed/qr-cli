@@ -105,17 +105,20 @@ code {
 
 @keyframes float {
   0% {
-    transform: translateY(100vh) scale(0.5);
+    transform: translateY(100vh) translateX(0) scale(0.5);
     opacity: 0;
   }
   15% {
-    opacity: 0.1;
+    opacity: 0.12;
+  }
+  50% {
+    transform: translateY(50vh) translateX(var(--drift, 0)) scale(0.8);
   }
   85% {
-    opacity: 0.1;
+    opacity: 0.12;
   }
   100% {
-    transform: translateY(-100px) scale(1);
+    transform: translateY(-100px) translateX(calc(var(--drift, 0) * -1)) scale(1);
     opacity: 0;
   }
 }
@@ -807,6 +810,8 @@ body.theme-light .hero h1 .highlight {
   opacity: 0;
   animation: heroFadeIn 0.8s ease-out 0.3s forwards;
   perspective: 1200px;
+  transition: transform 0.15s ease-out;
+  will-change: transform;
 }
 
 .terminal {
@@ -1480,28 +1485,37 @@ body.theme-light .hero h1 .highlight {
   padding: 1.75rem;
   transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  isolation: isolate;
 }
 
 .feature-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--phosphor), transparent);
+  inset: -1px;
+  background: linear-gradient(135deg, var(--phosphor) 0%, transparent 50%, var(--cyan) 100%);
+  border-radius: 15px;
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.4s;
+  z-index: -1;
+}
+
+.feature-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--bg-primary);
+  border-radius: 14px;
+  z-index: -1;
 }
 
 .feature-card:hover {
-  border-color: var(--border-hover);
+  border-color: transparent;
   transform: translateY(-6px);
 }
 
 .feature-card:hover::before {
-  opacity: 1;
+  opacity: 0.6;
 }
 
 .feature-icon {
@@ -1899,6 +1913,76 @@ footer a:hover {
 .footer-links a:hover {
   color: var(--phosphor);
   background: var(--phosphor-glow);
+}
+
+/* QR Pattern Dividers */
+.qr-divider {
+  position: relative;
+  height: 80px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-divider-pattern {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  opacity: 0.15;
+}
+
+.qr-divider-pattern::before,
+.qr-divider-pattern::after {
+  content: '';
+  display: flex;
+  gap: 4px;
+}
+
+.qr-divider-pattern::before {
+  width: 200px;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--phosphor) 0px,
+    var(--phosphor) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  mask-image: linear-gradient(90deg, transparent, black 20%, black 80%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 20%, black 80%, transparent);
+}
+
+.qr-divider-pattern::after {
+  width: 200px;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--phosphor) 0px,
+    var(--phosphor) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  mask-image: linear-gradient(90deg, transparent, black 20%, black 80%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 20%, black 80%, transparent);
+}
+
+/* Center QR icon in divider */
+.qr-divider-pattern {
+  position: relative;
+}
+
+.qr-divider-pattern::before {
+  animation: dividerPulse 4s ease-in-out infinite;
+}
+
+.qr-divider-pattern::after {
+  animation: dividerPulse 4s ease-in-out infinite 2s;
+}
+
+@keyframes dividerPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
 }
 
 /* Responsive */
