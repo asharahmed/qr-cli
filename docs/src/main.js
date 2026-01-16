@@ -21,6 +21,7 @@ import { initActiveNavLink } from './features/active-nav.js';
 import { initStatsCounter } from './features/stats-counter.js';
 import { initDemoButtonFeedback } from './features/demo-feedback.js';
 import { initVersionBadge } from './features/version-badge.js';
+import { initScrollTop } from './features/scroll-top.js';
 
 // Import global API
 import { setupGlobalAPI } from './api/global-api.js';
@@ -44,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initStatsCounter();
     initDemoButtonFeedback();
     initVersionBadge();
+    initScrollTop();
   } catch (err) {
     console.error('Initialization error:', err);
   }
