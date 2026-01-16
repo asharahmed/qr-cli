@@ -6,7 +6,7 @@
 
 <img src="docs/logo.svg" alt="qr-cli logo" width="96" height="96" />
 
-![CLI demo](docs/cli-demo.gif?v=3)
+![CLI demo](docs/cli-demo.gif?v=4)
 
 A fast, minimal CLI for generating terminal and PNG QR codes.
 
