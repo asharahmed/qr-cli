@@ -21,13 +21,6 @@ Install directly from the public GitHub repo:
 npm install -g github:asharahmed/qr-cli
 ```
 
-Install from GitHub Packages (requires a GitHub PAT with `read:packages`):
-```bash
-npm config set @asharahmed:registry https://npm.pkg.github.com
-npm login --registry=https://npm.pkg.github.com --scope=@asharahmed
-npm install -g @asharahmed/qr-cli
-```
-
 Prefer a binary? Download one from the Releases page:
 https://github.com/asharahmed/qr-cli/releases
 
