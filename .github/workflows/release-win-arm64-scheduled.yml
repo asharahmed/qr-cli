@@ -1,0 +1,60 @@
+name: Build Windows ARM64 Binary (Scheduled)
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to attach assets to (e.g. v1.1.5)
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  resolve-tag:
+    name: Resolve latest release tag
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.value }}
+    steps:
+      - name: Fetch latest release tag
+        id: tag
+        run: |
+          tag=$(curl -fsSL https://api.github.com/repos/asharahmed/qr-cli/releases/latest | jq -r .tag_name)
+          if [ -z "$tag" ] || [ "$tag" = "null" ]; then
+            echo "No release tag found." >&2
+            exit 1
+          fi
+          echo "value=$tag" >> "$GITHUB_OUTPUT"
+
+  build-win-arm64:
+    name: Build qr-win-arm64.exe
+    runs-on: [self-hosted, windows, arm64]
+    needs: resolve-tag
+    if: ${{ needs.resolve-tag.outputs.tag != '' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build dist
+        run: npm run build
+
+      - name: Build binary
+        run: npx pkg dist/index.js --targets node18-win-arm64 --output release/${{ needs.resolve-tag.outputs.tag }}/qr-win-arm64.exe
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.resolve-tag.outputs.tag }}
+          files: release/${{ needs.resolve-tag.outputs.tag }}/qr-win-arm64.exe
