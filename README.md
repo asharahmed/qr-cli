@@ -44,10 +44,12 @@ echo "hello world" | qr
 | --- | --- |
 | `-i, --invert` | Invert colors (for light terminals) |
 | `-l, --large` | Use large mode (2 chars per module) |
+| `-f, --file <path>` | Read input from a file |
 | `-e, --error <level>` | Error correction level: L, M, Q, H |
 | `--format <format>` | Output format: text, png, svg |
 | `--size <px>` | PNG size in pixels |
 | `--margin <px>` | Quiet zone margin in modules |
+| `--border <modules>` | Text output quiet zone size in modules |
 | `--raw` | Do not trim input |
 | `--quiet` | Suppress non-essential output |
 | `-o, --output <file>` | Save output to file, or use `-` for stdout |

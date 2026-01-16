@@ -10,14 +10,15 @@ const BLOCKS = {
 export interface RenderOptions {
   invert?: boolean;
   small?: boolean;
+  border?: number;
 }
 
 export function renderQRCode(matrix: QRMatrix, options: RenderOptions = {}): string {
-  const { invert = false, small = true } = options;
+  const { invert = false, small = true, border = 2 } = options;
   const { data, size } = matrix;
 
   // Add quiet zone (border)
-  const quietZone = 2;
+  const quietZone = border;
   const paddedSize = size + quietZone * 2;
   const padded: boolean[][] = [];
 
