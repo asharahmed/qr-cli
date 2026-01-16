@@ -67,6 +67,11 @@ echo "secret message" | qr --format png -o -
 echo "secret message" | qr -i
 ```
 
+## Troubleshooting
+- **No input provided**: pass text as an argument (`qr "text"`) or pipe stdin (`echo "text" | qr`).
+- **PNG stdout error**: if you see “Refusing to write PNG to terminal”, use `-o <file>` or pipe output to a file.
+- **Command not found**: run with `npx github:asharahmed/qr-cli "text"` or install globally via npm.
+
 ## Development
 ```bash
 npm install
