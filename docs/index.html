@@ -130,8 +130,8 @@
           <p class="hero-description">A fast, lightweight command-line tool that renders beautiful QR codes as ASCII art. Export to PNG or display instantly.</p>
           <div class="hero-actions">
             <div class="install-box">
-              <code><span class="prompt">$</span> npm install -g <span class="pkg">github:asharahmed/qr-cli</span></code>
-              <button class="copy-btn" onclick="copyToClipboard('npm install -g github:asharahmed/qr-cli', this)" title="Copy to clipboard" aria-label="Copy install command to clipboard">
+              <code><span class="prompt">$</span> npx <span class="pkg">github:asharahmed/qr-cli</span> <span class="string">"https://example.com"</span></code>
+              <button class="copy-btn" onclick="copyToClipboard('npx github:asharahmed/qr-cli &quot;https://example.com&quot;', this)" title="Copy to clipboard" aria-label="Copy command to clipboard">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
@@ -146,8 +146,8 @@
             </a>
           </div>
           <ol class="install-steps">
-            <li>Install globally with <code>npm install -g github:asharahmed/qr-cli</code></li>
-            <li>Run <code>qr "https://example.com"</code> in your terminal</li>
+            <li>No install needed &mdash; just run the command above</li>
+            <li>Or install globally: <code>npm i -g github:asharahmed/qr-cli</code></li>
           </ol>
         </div>
         <div class="terminal-wrapper">
@@ -573,17 +573,17 @@
     <div class="container">
       <div class="cta-content">
         <h2>Ready to get started?</h2>
-        <p>Install QR-CLI globally and start creating QR codes in seconds. Free and open source, forever.</p>
+        <p>Run QR-CLI instantly with npx. No install required. Free and open source, forever.</p>
         <div class="cta-install">
-          <code><span class="prompt">$</span> npm install -g <span class="pkg">github:asharahmed/qr-cli</span></code>
-          <button class="copy-btn" onclick="copyToClipboard('npm install -g github:asharahmed/qr-cli', this)" title="Copy to clipboard">
+          <code><span class="prompt">$</span> npx <span class="pkg">github:asharahmed/qr-cli</span> <span class="string">"https://example.com"</span></code>
+          <button class="copy-btn" onclick="copyToClipboard('npx github:asharahmed/qr-cli &quot;https://example.com&quot;', this)" title="Copy to clipboard">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
               <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
             </svg>
           </button>
         </div>
-        <div class="cta-steps">Install, then run <code>qr "https://example.com"</code> to generate your first code.</div>
+        <div class="cta-steps">Just copy the command above &mdash; no installation needed.</div>
       </div>
     </div>
   </section>

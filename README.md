@@ -20,14 +20,19 @@ A fast, minimal CLI for generating terminal and PNG QR codes.
 - Invert colors or use large rendering
 - Cross-platform binaries available via GitHub Releases
 
+## Quick Start
+No install needed — run directly with npx:
+```bash
+npx github:asharahmed/qr-cli "https://example.com"
+```
+
 ## Install
-Install directly from the public GitHub repo:
+For frequent use, install globally:
 ```bash
 npm install -g github:asharahmed/qr-cli
 ```
 
-Prefer a binary? Download one from the Releases page:
-https://github.com/asharahmed/qr-cli/releases
+Prefer a binary? Download from [Releases](https://github.com/asharahmed/qr-cli/releases).
 
 ## Release Binaries
 Supported targets:
@@ -37,12 +42,6 @@ Supported targets:
 - Windows ARM64: available when built via a self-hosted ARM64 runner
 
 Latest version: see the GitHub Releases page.
-
-## Quick start
-```bash
-qr "https://example.com"
-echo "hello world" | qr
-```
 
 ## Options
 | Flag | Description |
