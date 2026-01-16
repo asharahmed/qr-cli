@@ -22,6 +22,11 @@ function generateDemoQR() {
       demoQR.textContent = qrText;
       demoQR.classList.toggle('inverted', invertCheck?.checked);
       demoQR.classList.toggle('large', largeCheck?.checked);
+
+      // Trigger regenerate animation
+      demoQR.classList.remove('just-generated');
+      void demoQR.offsetWidth; // Force reflow
+      demoQR.classList.add('just-generated');
     }
 
     // Render canvas for PNG download

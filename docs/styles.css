@@ -1061,7 +1061,11 @@ body.theme-light .hero h1 .highlight {
   border-color: var(--phosphor-dim);
   box-shadow:
     0 0 0 3px var(--phosphor-glow),
-    0 0 20px var(--phosphor-glow);
+    0 0 30px var(--phosphor-glow);
+}
+
+.demo-input:not(:placeholder-shown) {
+  background: var(--bg-primary);
 }
 
 .demo-input::placeholder {
@@ -1326,6 +1330,24 @@ body.theme-light .hero h1 .highlight {
 
 .demo-qr.large {
   font-size: 0.625rem;
+}
+
+.demo-qr.just-generated {
+  animation: qrGenerated 0.4s ease-out;
+}
+
+@keyframes qrGenerated {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .demo-qr-canvas {
