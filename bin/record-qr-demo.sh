@@ -7,7 +7,7 @@ Set FontSize 20
 Set Width 900
 Set Height 520
 Set Theme "Builtin Dark"
-Type 'qr "https://example.com"'
+Type 'qr "https://qr-cli.dev"'
 Enter
 Sleep 1s
 
