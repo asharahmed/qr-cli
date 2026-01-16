@@ -14,7 +14,10 @@ Sleep 2s
 Type 'qr --format svg -o demo.svg "Hello QR"'
 Enter
 Sleep 2s
-Type "head -n 3 demo.svg"
+Type "qlmanage -t -s 512 -o /tmp demo.svg >/dev/null 2>&1"
+Enter
+Sleep 1s
+Type "imgcat /tmp/demo.svg.png"
 Enter
 Sleep 2s
 
