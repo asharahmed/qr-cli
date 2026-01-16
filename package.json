@@ -10,6 +10,10 @@
   "scripts": {
     "build": "tsc",
     "release": "node scripts/release.js",
+    "release:tag": "node scripts/release.js",
+    "release:notes": "node scripts/release-notes.js",
+    "release:check-assets": "node scripts/check-release-assets.js",
+    "release:win-arm64": "gh workflow run .github/workflows/release-win-arm64.yml -f tag=$npm_config_tag",
     "start": "node dist/index.js"
   },
   "keywords": [

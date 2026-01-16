@@ -1,0 +1,22 @@
+versioning:
+  tag_format: vX.Y.Z
+
+targets:
+  linux:
+    - qr-linux-x64
+    - qr-linux-arm64
+  macos:
+    - qr-macos-x64
+    - qr-macos-arm64
+    - qr-macos-universal
+  windows:
+    - qr-win-x64.exe
+    - qr-win-arm64.exe
+
+automation:
+  release_workflow: .github/workflows/release-binaries.yml
+  win_arm64_workflow: .github/workflows/release-win-arm64.yml
+  win_arm64_notes: >
+    Windows ARM64 builds require a self-hosted Windows ARM64 runner
+    (labels: self-hosted, windows, arm64). Trigger the workflow manually
+    when the VM is online.
