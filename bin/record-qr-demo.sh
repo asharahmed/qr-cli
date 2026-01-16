@@ -11,10 +11,12 @@ Type 'qr "https://qr-cli.dev"'
 Enter
 Sleep 2s
 
+Clear
 Type 'qr --invert "Hello QR"'
 Enter
 Sleep 2s
 
+Clear
 Type 'qr --border 0 "No Border"'
 Enter
 Sleep 2s
