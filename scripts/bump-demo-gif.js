@@ -62,7 +62,7 @@ function main() {
     console.warn('Failed to auto-commit (nothing to commit or git not configured).');
   }
 
-  if (process.env.AUTO_PUSH === '1') {
+  if (process.env.NO_PUSH !== '1') {
     try {
       run('git push');
       console.log('Pushed demo GIF update.');
