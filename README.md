@@ -1,5 +1,7 @@
 # QR CLI
 [![Release](https://img.shields.io/github/v/release/asharahmed/qr-cli)](https://github.com/asharahmed/qr-cli/releases)
+[![Node](https://img.shields.io/github/package-json/engines/asharahmed/qr-cli?label=node)](https://nodejs.org/)
+[![GitHub Package Version](https://img.shields.io/github/package-json/v/asharahmed/qr-cli?label=github%20package)](https://github.com/asharahmed/qr-cli/packages)
 [![GitHub Packages](https://img.shields.io/badge/GitHub%20Packages-@asharahmed/qr--cli-blue)](https://github.com/asharahmed/qr-cli/packages)
 [![Build](https://img.shields.io/github/actions/workflow/status/asharahmed/qr-cli/deploy.yml?label=docs)](https://github.com/asharahmed/qr-cli/actions/workflows/deploy.yml)
 [![Dependencies](https://img.shields.io/badge/dependencies-2-green)](package.json)

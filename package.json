@@ -4,6 +4,9 @@
   "description": "Generate QR codes in your terminal",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=20"
+  },
   "bin": {
     "qr": "bin/qr"
   },
