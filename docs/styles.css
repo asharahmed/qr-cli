@@ -1445,12 +1445,25 @@ body.theme-light .hero h1 .highlight {
   transition: all 0.2s ease;
 }
 
+.comparison-row:not(.header):nth-child(odd) {
+  background: rgba(255, 255, 255, 0.01);
+}
+
 .comparison-row:not(.header):hover {
   background: var(--bg-tertiary);
 }
 
 .comparison-row:not(.header):hover .comparison-highlight {
   background: rgba(0, 255, 136, 0.08);
+}
+
+.comparison-row:not(.header):hover .comparison-cell.check {
+  transform: scale(1.1);
+}
+
+.comparison-cell.check svg,
+.comparison-cell.cross svg {
+  transition: transform 0.2s;
 }
 
 /* Features Section */
@@ -1689,11 +1702,28 @@ body.theme-light .hero h1 .highlight {
   border-radius: 12px;
   overflow: hidden;
   transition: all 0.25s;
+  position: relative;
+}
+
+.example-block::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--phosphor);
+  opacity: 0;
+  transition: opacity 0.25s;
 }
 
 .example-block:hover {
   border-color: var(--border-hover);
   transform: translateX(4px);
+}
+
+.example-block:hover::before {
+  opacity: 1;
 }
 
 .example-label {
@@ -1770,6 +1800,25 @@ body.theme-light .hero h1 .highlight {
   background: radial-gradient(circle, var(--phosphor-glow) 0%, transparent 55%);
   pointer-events: none;
   opacity: 0.5;
+  animation: ctaPulse 8s ease-in-out infinite;
+}
+
+.cta::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+  animation: ctaPulse 8s ease-in-out infinite 4s;
+}
+
+@keyframes ctaPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+  50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.6; }
 }
 
 .cta-content {
