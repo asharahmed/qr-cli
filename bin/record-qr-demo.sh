@@ -9,21 +9,21 @@ Set Height 520
 Set Theme "Builtin Dark"
 Type 'qr "https://qr-cli.dev"'
 Enter
-Sleep 1s
+Sleep 2s
 
 Type 'qr --format svg -o demo.svg "Hello QR"'
 Enter
-Sleep 1s
+Sleep 2s
 Type "ls demo.svg"
 Enter
-Sleep 1s
+Sleep 2s
 
 Type 'qr --format png -o demo.png "Hello QR"'
 Enter
-Sleep 1s
+Sleep 2s
 Type "ls demo.png"
 Enter
-Sleep 1s
+Sleep 2s
 TAPE
 
 vhs /tmp/qr-demo.tape
