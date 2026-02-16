@@ -684,21 +684,37 @@ body.theme-light .hero h1 .highlight {
   overflow: hidden;
   vertical-align: bottom;
   height: 1.1em;
-  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    black 20%,
-    black 80%,
+    black 15%,
+    black 85%,
     transparent 100%
   );
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    black 20%,
-    black 80%,
+    black 15%,
+    black 85%,
     transparent 100%
   );
+}
+
+/* Animated underline accent */
+.carousel-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--phosphor), var(--cyan));
+  border-radius: 1px;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: underlinePulse 12s infinite;
+  box-shadow: 0 0 8px var(--phosphor-glow);
 }
 
 .carousel {
@@ -725,6 +741,16 @@ body.theme-light .hero h1 .highlight {
   animation: gradientShift 6s ease-in-out infinite;
 }
 
+.carousel-item.glow {
+  filter: brightness(1.4) drop-shadow(0 0 8px var(--phosphor-glow));
+  transition: filter 0.15s ease-out;
+}
+
+.carousel-item:not(.glow) {
+  filter: brightness(1);
+  transition: filter 0.4s ease-out;
+}
+
 body.theme-light .carousel-item {
   background: linear-gradient(135deg, var(--phosphor) 0%, var(--cyan) 50%, var(--phosphor) 100%);
   background-size: 300% auto;
@@ -742,6 +768,34 @@ body.theme-light .carousel-item {
   51%, 66%     { transform: translateY(-50%); }
   68%, 83%     { transform: translateY(-66.667%); }
   85%, 100%    { transform: translateY(-83.333%); }
+}
+
+/* Underline grows in after each word lands, fades before the next transition */
+@keyframes underlinePulse {
+  0%           { transform: scaleX(0); opacity: 0; }
+  2%           { transform: scaleX(1); opacity: 1; }
+  14%          { transform: scaleX(1); opacity: 1; }
+  16%          { transform: scaleX(0); opacity: 0; }
+  17%          { transform: scaleX(0); opacity: 0; }
+  19%          { transform: scaleX(1); opacity: 1; }
+  31%          { transform: scaleX(1); opacity: 1; }
+  33%          { transform: scaleX(0); opacity: 0; }
+  34%          { transform: scaleX(0); opacity: 0; }
+  36%          { transform: scaleX(1); opacity: 1; }
+  48%          { transform: scaleX(1); opacity: 1; }
+  50%          { transform: scaleX(0); opacity: 0; }
+  51%          { transform: scaleX(0); opacity: 0; }
+  53%          { transform: scaleX(1); opacity: 1; }
+  65%          { transform: scaleX(1); opacity: 1; }
+  67%          { transform: scaleX(0); opacity: 0; }
+  68%          { transform: scaleX(0); opacity: 0; }
+  70%          { transform: scaleX(1); opacity: 1; }
+  82%          { transform: scaleX(1); opacity: 1; }
+  84%          { transform: scaleX(0); opacity: 0; }
+  85%          { transform: scaleX(0); opacity: 0; }
+  87%          { transform: scaleX(1); opacity: 1; }
+  99%          { transform: scaleX(1); opacity: 1; }
+  100%         { transform: scaleX(0); opacity: 0; }
 }
 
 .hero-description {

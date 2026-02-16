@@ -1,9 +1,8 @@
 import { safeQuery } from '../utils/error-handler.js';
 
 /**
- * Initialize the hero carousel with smooth width transitions.
- * Measures each item's natural width and schedules width changes
- * in sync with the CSS scroll animation.
+ * Initialize the hero carousel with smooth width transitions
+ * and a glow pulse on each word change.
  */
 export function initHeroCarousel() {
   const wrapper = safeQuery('.carousel-wrapper');
@@ -15,7 +14,6 @@ export function initHeroCarousel() {
 
   // Measure each item's natural text width
   const widths = Array.from(items).map(item => {
-    // Temporarily make item visible at natural width to measure
     const prevPosition = item.style.position;
     const prevVisibility = item.style.visibility;
     item.style.position = 'absolute';
@@ -32,9 +30,7 @@ export function initHeroCarousel() {
   // Animation duration must match CSS (12s)
   const duration = 12000;
 
-  // Schedule width changes at each transition midpoint (matching CSS keyframes).
-  // CSS keyframes: 0%→15% (item 0), 18%→32% (item 1), 35%→49% (item 2),
-  //               52%→66% (item 3), 69%→83% (item 4), 86%→100% (duplicate 0)
+  // Transition midpoints matching CSS keyframes
   const schedule = [
     { time: 0, index: 0 },
     { time: 0.165, index: 1 },
@@ -44,14 +40,36 @@ export function initHeroCarousel() {
     { time: 0.845, index: 0 },
   ];
 
+  let timeouts = [];
+
   function runCycle() {
+    // Clear any pending timeouts from a previous cycle
+    timeouts.forEach(id => clearTimeout(id));
+    timeouts = [];
+
     schedule.forEach(({ time, index }) => {
-      setTimeout(() => {
+      const id = setTimeout(() => {
         wrapper.style.width = `${widths[index]}px`;
+
+        // Brief glow pulse on the active item
+        const active = items[index];
+        if (active) {
+          active.classList.add('glow');
+          setTimeout(() => active.classList.remove('glow'), 400);
+        }
       }, time * duration);
+      timeouts.push(id);
     });
   }
 
+  // Start first cycle
   runCycle();
+
+  // Re-sync on each animation loop to prevent timer drift
+  carousel.addEventListener('animationiteration', () => {
+    runCycle();
+  });
+
+  // Fallback interval in case animationiteration doesn't fire reliably
   setInterval(runCycle, duration);
 }
