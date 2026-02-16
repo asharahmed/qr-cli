@@ -2,7 +2,7 @@ import { showToast } from '../../utils/toast.js';
 import { QR_CAPACITY, CAPACITY_THRESHOLDS } from '../../config/constants.js';
 import { demoState, initDemoState } from './state.js';
 import { updateCommandPreview } from './command-preview.js';
-import { renderQRToText, renderQRToCanvas, getQRMetadata, makeQRSquare } from './qr-renderer.js';
+import { renderQRToText, renderQRToCanvas, getQRMetadata } from './qr-renderer.js';
 import { downloadQR, copyAsciiQR, copyCommandPreview, clearDemo } from './actions.js';
 import { initOptions } from './options.js';
 import { initControls } from './controls.js';
@@ -78,9 +78,6 @@ function generateDemoQR({ silent = false } = {}) {
         <span>${meta.isInverted ? 'Inverted' : 'Standard'} colors</span>
       `;
     }
-
-    // Make QR perfectly square (after siblings are populated so sizing is accurate)
-    if (demoQR) makeQRSquare(demoQR);
 
     // Update command preview
     updateCommandPreview(text);

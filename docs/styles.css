@@ -1004,8 +1004,10 @@ body.theme-light .hero h1 .highlight {
   opacity: 0;
   animation: revealQR 0.6s ease-out 2.6s forwards;
   letter-spacing: 0.02em;
-  overflow-x: auto;
-  transform-origin: top center;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  width: fit-content;
+  max-width: 100%;
 }
 
 @keyframes revealQR {
@@ -1377,7 +1379,10 @@ body.theme-light .hero h1 .highlight {
   white-space: pre;
   transition: all 0.3s;
   animation: qrPulse 3s ease-in-out infinite;
-  transform-origin: top center;
+  aspect-ratio: 1 / 1;
+  width: fit-content;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .demo-qr:empty {
