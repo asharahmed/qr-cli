@@ -58,21 +58,71 @@ export function renderQRToText(text) {
 }
 
 /**
- * Apply exact scaleY to make a QR text element render as a perfect square.
- * Measures actual layout dimensions and compensates for the monospace
- * character aspect ratio (chars are taller than wide).
+ * Make a QR text element render as a perfect square that fits its container.
+ * Measures layout dimensions, scales font-size down if needed, applies scaleY
+ * for exact squareness, and adds margin-bottom so the layout accounts for
+ * the visual height increase.
  * @param {HTMLElement} element - The pre/code element containing QR text
  */
 export function makeQRSquare(element) {
   if (!element) return;
-  const style = getComputedStyle(element);
-  const px = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
-  const py = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
-  const contentW = element.scrollWidth - px;
-  const contentH = element.scrollHeight - py;
-  if (contentW > 0 && contentH > 0) {
-    element.style.transform = `scaleY(${(contentW / contentH).toFixed(4)})`;
+
+  // Reset previous adjustments so we measure CSS-defined sizing
+  element.style.transform = '';
+  element.style.fontSize = '';
+  element.style.marginBottom = '';
+
+  const measure = () => {
+    const s = getComputedStyle(element);
+    const px = parseFloat(s.paddingLeft) + parseFloat(s.paddingRight);
+    const py = parseFloat(s.paddingTop) + parseFloat(s.paddingBottom);
+    return {
+      contentW: element.scrollWidth - px,
+      contentH: element.scrollHeight - py,
+      fontSize: parseFloat(s.fontSize),
+    };
+  };
+
+  let { contentW, contentH, fontSize } = measure();
+  if (contentW <= 0 || contentH <= 0) return;
+
+  // Check if the resulting square fits the parent container
+  const container = element.parentElement;
+  if (container) {
+    const cs = getComputedStyle(container);
+    const availW = container.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+
+    // Available height: container minus siblings and flex gaps
+    let siblingsH = 0;
+    const gap = parseFloat(cs.gap) || 0;
+    let sibCount = 0;
+    for (const child of container.children) {
+      if (child !== element && getComputedStyle(child).display !== 'none') {
+        siblingsH += child.offsetHeight;
+        sibCount++;
+      }
+    }
+    if (sibCount > 0) siblingsH += gap * (sibCount + 1);
+
+    const availH = container.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - siblingsH;
+    const maxSquare = Math.min(availW, Math.max(availH, 50));
+
+    // Scale font-size down if the square (contentW × contentW) won't fit
+    if (contentW > maxSquare) {
+      element.style.fontSize = `${fontSize * (maxSquare / contentW)}px`;
+      ({ contentW, contentH } = measure());
+      if (contentW <= 0 || contentH <= 0) return;
+    }
   }
+
+  // Apply scaleY so visual height matches width (perfect square)
+  const scaleY = contentW / contentH;
+  element.style.transform = `scaleY(${scaleY.toFixed(4)})`;
+
+  // scaleY increases visual height without affecting layout — add margin
+  // so siblings aren't overlapped by the expanded element
+  const extraH = element.offsetHeight * (scaleY - 1);
+  element.style.marginBottom = `${extraH}px`;
 }
 
 /**

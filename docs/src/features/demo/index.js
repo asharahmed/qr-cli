@@ -36,9 +36,6 @@ function generateDemoQR({ silent = false } = {}) {
       demoQR.classList.toggle('inverted', invertCheck?.checked);
       demoQR.classList.toggle('large', largeCheck?.checked);
 
-      // Make QR perfectly square
-      makeQRSquare(demoQR);
-
       // Trigger regenerate animation
       demoQR.classList.remove('just-generated');
       void demoQR.offsetWidth; // Force reflow
@@ -81,6 +78,9 @@ function generateDemoQR({ silent = false } = {}) {
         <span>${meta.isInverted ? 'Inverted' : 'Standard'} colors</span>
       `;
     }
+
+    // Make QR perfectly square (after siblings are populated so sizing is accurate)
+    if (demoQR) makeQRSquare(demoQR);
 
     // Update command preview
     updateCommandPreview(text);
