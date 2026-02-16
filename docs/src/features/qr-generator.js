@@ -25,25 +25,25 @@ export function generateQRCode(text, large = false, errorLevel = 'M') {
       // Large mode: 2 chars per module for better aspect ratio
       for (let row = 0; row < moduleCount; row++) {
         for (let col = 0; col < moduleCount; col++) {
-          output += qr.isDark(row, col) ? '████' : '    ';
+          output += qr.isDark(row, col) ? '██' : '  ';
         }
         output += '\n';
       }
     } else {
-      // Compact mode: use Unicode half blocks
+      // Compact mode: use Unicode half blocks (1 char per module)
       for (let row = 0; row < moduleCount; row += 2) {
         for (let col = 0; col < moduleCount; col++) {
           const top = qr.isDark(row, col);
           const bottom = row + 1 < moduleCount ? qr.isDark(row + 1, col) : false;
 
           if (top && bottom) {
-            output += '██';
+            output += '█';
           } else if (top && !bottom) {
-            output += '▀▀';
+            output += '▀';
           } else if (!top && bottom) {
-            output += '▄▄';
+            output += '▄';
           } else {
-            output += '  ';
+            output += ' ';
           }
         }
         output += '\n';
