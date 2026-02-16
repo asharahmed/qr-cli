@@ -22,7 +22,7 @@ function getCapacityStatus(text, level) {
 /**
  * Generate demo QR code
  */
-function generateDemoQR() {
+function generateDemoQR({ silent = false } = {}) {
   const { demoInput, demoQR, demoHint, demoMeta, invertCheck, largeCheck, errorLevel } = demoState;
 
   const text = demoInput?.value || 'https://qr-cli.dev';
@@ -82,7 +82,7 @@ function generateDemoQR() {
     // Update command preview
     updateCommandPreview(text);
 
-    showToast('QR code generated!');
+    if (!silent) showToast('QR code generated!');
   } catch (e) {
     // Better error message with actionable suggestion
     const errorMsg = 'Text too long for QR code';
@@ -132,6 +132,6 @@ export function initDemoQR() {
   // Initialize command preview
   updateCommandPreview(demoState.demoInput?.value || 'https://qr-cli.dev');
 
-  // Generate initial QR
-  generateDemoQR();
+  // Generate initial QR (silent — no toast on page load)
+  generateDemoQR({ silent: true });
 }
