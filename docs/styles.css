@@ -678,6 +678,55 @@ body.theme-light .hero h1 .highlight {
   display: block;
 }
 
+.carousel-wrapper {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  vertical-align: bottom;
+  height: 1.1em;
+}
+
+.carousel {
+  display: flex;
+  flex-direction: column;
+  animation: carouselScroll 12s ease-in-out infinite;
+}
+
+.carousel-item {
+  display: block;
+  height: 1.1em;
+  background: linear-gradient(
+    135deg,
+    var(--phosphor) 0%,
+    var(--cyan) 40%,
+    var(--phosphor) 80%,
+    var(--cyan) 100%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease-in-out infinite;
+}
+
+body.theme-light .carousel-item {
+  background: linear-gradient(135deg, var(--phosphor) 0%, var(--cyan) 50%, var(--phosphor) 100%);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 6 slots (5 unique + 1 duplicate first for seamless loop) */
+@keyframes carouselScroll {
+  0%, 15%    { transform: translateY(0); }
+  18%, 32%   { transform: translateY(-16.667%); }
+  35%, 49%   { transform: translateY(-33.333%); }
+  52%, 66%   { transform: translateY(-50%); }
+  69%, 83%   { transform: translateY(-66.667%); }
+  86%, 100%  { transform: translateY(-83.333%); }
+}
+
 .hero-description {
   font-size: 1.0625rem;
   color: var(--text-secondary);
