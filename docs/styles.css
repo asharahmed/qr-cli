@@ -684,17 +684,33 @@ body.theme-light .hero h1 .highlight {
   overflow: hidden;
   vertical-align: bottom;
   height: 1.1em;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 20%,
+    black 80%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 20%,
+    black 80%,
+    transparent 100%
+  );
 }
 
 .carousel {
   display: flex;
   flex-direction: column;
-  animation: carouselScroll 12s ease-in-out infinite;
+  animation: carouselScroll 12s infinite;
 }
 
 .carousel-item {
   display: block;
   height: 1.1em;
+  white-space: nowrap;
   background: linear-gradient(
     135deg,
     var(--phosphor) 0%,
@@ -717,14 +733,15 @@ body.theme-light .carousel-item {
   -webkit-text-fill-color: transparent;
 }
 
-/* 6 slots (5 unique + 1 duplicate first for seamless loop) */
+/* 6 slots (5 unique + 1 duplicate first for seamless loop).
+   Short 2% transition windows give a quick snap between items. */
 @keyframes carouselScroll {
-  0%, 15%    { transform: translateY(0); }
-  18%, 32%   { transform: translateY(-16.667%); }
-  35%, 49%   { transform: translateY(-33.333%); }
-  52%, 66%   { transform: translateY(-50%); }
-  69%, 83%   { transform: translateY(-66.667%); }
-  86%, 100%  { transform: translateY(-83.333%); }
+  0%, 15%      { transform: translateY(0); }
+  17%, 32%     { transform: translateY(-16.667%); }
+  34%, 49%     { transform: translateY(-33.333%); }
+  51%, 66%     { transform: translateY(-50%); }
+  68%, 83%     { transform: translateY(-66.667%); }
+  85%, 100%    { transform: translateY(-83.333%); }
 }
 
 .hero-description {
@@ -1660,11 +1677,14 @@ body.theme-light .carousel-item {
 }
 
 .feature-card {
+  --card-accent-rgb: 0, 255, 136;
   background: var(--bg-primary);
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 1.75rem;
-  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.3s ease,
+              box-shadow 0.4s ease;
   position: relative;
   overflow: visible;
   isolation: isolate;
@@ -1674,10 +1694,15 @@ body.theme-light .carousel-item {
   content: '';
   position: absolute;
   inset: -1px;
-  background: linear-gradient(135deg, var(--phosphor) 0%, transparent 50%, var(--cyan) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--card-accent-rgb), 0.5) 0%,
+    transparent 50%,
+    rgba(var(--card-accent-rgb), 0.3) 100%
+  );
   border-radius: 15px;
   opacity: 0;
-  transition: opacity 0.4s;
+  transition: opacity 0.4s ease;
   z-index: -1;
 }
 
@@ -1693,10 +1718,13 @@ body.theme-light .carousel-item {
 .feature-card:hover {
   border-color: transparent;
   transform: translateY(-6px);
+  box-shadow:
+    0 8px 24px rgba(var(--card-accent-rgb), 0.08),
+    0 24px 48px rgba(var(--card-accent-rgb), 0.12);
 }
 
 .feature-card:hover::before {
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 .feature-icon {
@@ -1710,14 +1738,23 @@ body.theme-light .carousel-item {
   margin-bottom: 1.25rem;
   color: var(--phosphor);
   border: 1px solid rgba(0, 255, 136, 0.12);
-  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.4s ease;
 }
 
 .feature-card:hover .feature-icon {
-  transform: scale(1.08) rotate(-3deg);
+  transform: scale(1.1) rotate(-3deg);
+  box-shadow: 0 4px 20px rgba(var(--card-accent-rgb), 0.3);
 }
 
-/* Varied accent colors for feature cards */
+/* Per-card accent colors */
+.feature-card:nth-child(1) { --card-accent-rgb: 0, 212, 255; }
+.feature-card:nth-child(2) { --card-accent-rgb: 183, 148, 246; }
+.feature-card:nth-child(3) { --card-accent-rgb: 255, 200, 87; }
+.feature-card:nth-child(4) { --card-accent-rgb: 0, 255, 136; }
+.feature-card:nth-child(5) { --card-accent-rgb: 255, 107, 122; }
+.feature-card:nth-child(6) { --card-accent-rgb: 0, 212, 255; }
+
 .feature-card:nth-child(1) .feature-icon {
   background: rgba(0, 212, 255, 0.1);
   color: var(--cyan);
@@ -1749,14 +1786,6 @@ body.theme-light .carousel-item {
   border-color: rgba(0, 212, 255, 0.15);
 }
 
-/* Hover glow effects matching icon colors */
-.feature-card:nth-child(1):hover { box-shadow: 0 20px 50px rgba(0, 212, 255, 0.12); }
-.feature-card:nth-child(2):hover { box-shadow: 0 20px 50px rgba(183, 148, 246, 0.12); }
-.feature-card:nth-child(3):hover { box-shadow: 0 20px 50px rgba(255, 200, 87, 0.12); }
-.feature-card:nth-child(4):hover { box-shadow: 0 20px 50px rgba(0, 255, 136, 0.12); }
-.feature-card:nth-child(5):hover { box-shadow: 0 20px 50px rgba(255, 107, 122, 0.12); }
-.feature-card:nth-child(6):hover { box-shadow: 0 20px 50px rgba(0, 212, 255, 0.12); }
-
 .feature-icon svg {
   width: 22px;
   height: 22px;
@@ -1767,12 +1796,22 @@ body.theme-light .carousel-item {
   font-size: 1.0625rem;
   margin-bottom: 0.625rem;
   font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.feature-card:hover h3 {
+  color: rgb(var(--card-accent-rgb));
 }
 
 .feature-card p {
   color: var(--text-secondary);
   font-size: 0.875rem;
   line-height: 1.65;
+  transition: color 0.3s ease;
+}
+
+.feature-card:hover p {
+  color: var(--text-primary);
 }
 
 /* Usage Section */

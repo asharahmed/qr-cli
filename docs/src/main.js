@@ -15,6 +15,7 @@ import { createParticles } from './features/particles.js';
 import { initMobileMenu } from './features/mobile-menu.js';
 import { initThemeToggle } from './features/theme-toggle.js';
 import { generateHeroQR } from './features/hero-qr.js';
+import { initHeroCarousel } from './features/hero-carousel.js';
 import { initDemoQR } from './features/demo/index.js';
 import { initScrollAnimations } from './features/scroll-animations.js';
 import { initActiveNavLink } from './features/active-nav.js';
@@ -39,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
     initThemeToggle();
     generateHeroQR();
+    initHeroCarousel();
     initDemoQR();
     initScrollAnimations();
     initActiveNavLink();
