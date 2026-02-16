@@ -1,4 +1,5 @@
 import { generateQRCode } from './qr-generator.js';
+import { makeQRSquare } from './demo/qr-renderer.js';
 import { safeQuery } from '../utils/error-handler.js';
 
 /**
@@ -8,5 +9,6 @@ export function generateHeroQR() {
   const qrOutput = safeQuery('#heroQR');
   if (qrOutput) {
     qrOutput.textContent = generateQRCode('https://github.com/asharahmed/qr-cli');
+    makeQRSquare(qrOutput);
   }
 }

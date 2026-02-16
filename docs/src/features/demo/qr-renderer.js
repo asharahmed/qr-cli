@@ -58,6 +58,24 @@ export function renderQRToText(text) {
 }
 
 /**
+ * Apply exact scaleY to make a QR text element render as a perfect square.
+ * Measures actual layout dimensions and compensates for the monospace
+ * character aspect ratio (chars are taller than wide).
+ * @param {HTMLElement} element - The pre/code element containing QR text
+ */
+export function makeQRSquare(element) {
+  if (!element) return;
+  const style = getComputedStyle(element);
+  const px = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+  const py = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+  const contentW = element.scrollWidth - px;
+  const contentH = element.scrollHeight - py;
+  if (contentW > 0 && contentH > 0) {
+    element.style.transform = `scaleY(${(contentW / contentH).toFixed(4)})`;
+  }
+}
+
+/**
  * Get QR code metadata
  * @param {string} text - Text encoded
  * @returns {object} Metadata about the QR code
