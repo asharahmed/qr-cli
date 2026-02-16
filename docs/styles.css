@@ -1509,6 +1509,7 @@ body.theme-light .hero h1 .highlight {
   justify-content: center;
   color: var(--red);
   opacity: 0.4;
+  transition: opacity 0.25s ease;
 }
 
 .comparison-highlight {
@@ -1516,7 +1517,12 @@ body.theme-light .hero h1 .highlight {
 }
 
 .comparison-row:not(.header) {
-  transition: all 0.2s ease;
+  transition: background 0.25s ease;
+  cursor: default;
+}
+
+.comparison-row:not(.header) .comparison-cell {
+  transition: color 0.25s ease, background 0.25s ease;
 }
 
 .comparison-row:not(.header):nth-child(odd) {
@@ -1524,20 +1530,37 @@ body.theme-light .hero h1 .highlight {
 }
 
 .comparison-row:not(.header):hover {
-  background: var(--bg-tertiary);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.comparison-row:not(.header):hover .comparison-cell.feature {
+  color: var(--text-primary);
 }
 
 .comparison-row:not(.header):hover .comparison-highlight {
-  background: rgba(0, 255, 136, 0.08);
+  background: rgba(0, 255, 136, 0.1);
 }
 
 .comparison-row:not(.header):hover .comparison-cell.check {
-  transform: scale(1.1);
+  text-shadow: 0 0 12px var(--phosphor-glow);
+}
+
+.comparison-row:not(.header):hover .comparison-cell.cross {
+  opacity: 0.6;
 }
 
 .comparison-cell.check svg,
 .comparison-cell.cross svg {
-  transition: transform 0.2s;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.comparison-row:not(.header):hover .comparison-cell.check svg {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 4px var(--phosphor-glow));
+}
+
+.comparison-row:not(.header):hover .comparison-cell.cross svg {
+  transform: scale(1.05);
 }
 
 /* Features Section */
