@@ -2,9 +2,9 @@ import { safeQuery } from '../utils/error-handler.js';
 
 /**
  * Initialize the hero carousel.
- * Fully JS-driven so it handles variable item heights (text wrapping)
- * with smooth transitions for scroll position, wrapper size, underline,
- * and a glow pulse on each word change.
+ * Fully JS-driven to handle variable item heights (text wrapping on
+ * narrow viewports) with smooth transitions for position, size,
+ * underline accent, and glow pulse.
  */
 export function initHeroCarousel() {
   const wrapper = safeQuery('.carousel-wrapper');
@@ -15,16 +15,26 @@ export function initHeroCarousel() {
   const items = carousel.querySelectorAll('.carousel-item:not([aria-hidden])');
   if (items.length === 0) return;
 
-  const ITEM_COUNT = items.length;   // 5 unique items
-  const HOLD = 2000;                 // ms each word is displayed
-  const TRANSITION = 350;            // ms for the scroll transition
-  const CYCLE = (HOLD + TRANSITION) * ITEM_COUNT;
+  // Respect prefers-reduced-motion
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (prefersReduced.matches) {
+    wrapper.style.width = 'auto';
+    wrapper.style.height = 'auto';
+    return;
+  }
 
-  // Measure every item (including the duplicate) at the current viewport width.
+  const ITEM_COUNT = items.length;
+  const HOLD = 2000;
+  const SCROLL_MS = 350;
+
+  // ── Measurement ──────────────────────────────────────────────
+
   function measureItems() {
-    const parentWidth = wrapper.parentElement ? wrapper.parentElement.clientWidth : Infinity;
+    const parentWidth = wrapper.parentElement
+      ? wrapper.parentElement.clientWidth
+      : Infinity;
+
     return Array.from(allItems).map(item => {
-      // Temporarily position absolute to measure natural size
       const prev = {
         position: item.style.position,
         visibility: item.style.visibility,
@@ -33,8 +43,10 @@ export function initHeroCarousel() {
       item.style.position = 'absolute';
       item.style.visibility = 'hidden';
       item.style.width = `${parentWidth}px`;
+
       const width = Math.min(item.scrollWidth, parentWidth);
       const height = item.offsetHeight;
+
       item.style.position = prev.position;
       item.style.visibility = prev.visibility;
       item.style.width = prev.width;
@@ -42,80 +54,120 @@ export function initHeroCarousel() {
     });
   }
 
-  // Compute the Y offset for each item (sum of preceding heights).
-  function computeOffsets(sizes) {
-    const offsets = [0];
-    for (let i = 1; i < sizes.length; i++) {
-      offsets.push(offsets[i - 1] + sizes[i - 1].height);
-    }
-    return offsets;
+  function computeOffsets(s) {
+    const o = [0];
+    for (let i = 1; i < s.length; i++) o.push(o[i - 1] + s[i - 1].height);
+    return o;
   }
 
   let sizes = measureItems();
   let offsets = computeOffsets(sizes);
-  let currentIndex = 0;
-  let intervalId = null;
+  let current = 0;
+  let running = true;
 
-  function applyItem(index, animate) {
-    currentIndex = index;
-    const itemIndex = index % allItems.length;
+  // ── Rendering ────────────────────────────────────────────────
 
-    // Scroll position
-    if (!animate) {
+  function scrollTo(index, animate) {
+    if (animate) {
+      carousel.style.transition = '';
+    } else {
       carousel.style.transition = 'none';
       carousel.offsetHeight; // force reflow
-    } else {
-      carousel.style.transition = '';
     }
-    carousel.style.transform = `translateY(-${offsets[itemIndex]}px)`;
+    carousel.style.transform = `translateY(-${offsets[index]}px)`;
+  }
 
-    // Wrapper dimensions (use the unique item index for sizing)
-    const sizeIndex = index < ITEM_COUNT ? index : 0;
-    wrapper.style.width = `${sizes[sizeIndex].width}px`;
-    wrapper.style.height = `${sizes[sizeIndex].height}px`;
+  function resizeWrapper(index) {
+    const i = index < ITEM_COUNT ? index : 0;
+    wrapper.style.width = `${sizes[i].width}px`;
+    wrapper.style.height = `${sizes[i].height}px`;
+  }
 
-    // Underline: hide during transition, show after it settles
+  function showUnderline() {
+    // Grow from left
+    wrapper.style.setProperty('--underline-origin', 'left');
+    wrapper.classList.add('underline-visible');
+  }
+
+  function hideUnderline() {
+    // Collapse to right
+    wrapper.style.setProperty('--underline-origin', 'right');
     wrapper.classList.remove('underline-visible');
-    if (animate) {
-      setTimeout(() => wrapper.classList.add('underline-visible'), TRANSITION);
-    } else {
-      wrapper.classList.add('underline-visible');
-    }
+  }
 
-    // Glow pulse on the visible unique item
-    if (animate && items[sizeIndex]) {
-      items[sizeIndex].classList.add('glow');
-      setTimeout(() => items[sizeIndex].classList.remove('glow'), 400);
+  function pulseGlow(index) {
+    const i = index < ITEM_COUNT ? index : 0;
+    const el = items[i];
+    if (!el) return;
+    el.classList.add('glow');
+    setTimeout(() => el.classList.remove('glow'), 400);
+  }
+
+  // ── Cycle logic (setTimeout chain — no drift) ────────────────
+
+  function showItem(index, animate) {
+    current = index;
+    scrollTo(index, animate);
+    resizeWrapper(index);
+
+    if (animate) {
+      setTimeout(() => {
+        showUnderline();
+        pulseGlow(index);
+      }, SCROLL_MS);
+    } else {
+      showUnderline();
     }
   }
 
-  function advance() {
-    // Hide underline before transitioning
-    wrapper.classList.remove('underline-visible');
+  function scheduleNext() {
+    if (!running) return;
 
     setTimeout(() => {
-      const nextIndex = currentIndex + 1;
+      // 1. Collapse underline
+      hideUnderline();
 
-      if (nextIndex >= allItems.length) {
-        // We've reached the duplicate — snap back to the real first item
-        applyItem(0, false);
-      } else {
-        applyItem(nextIndex, true);
+      // 2. After underline collapses, scroll to next
+      setTimeout(() => {
+        const next = current + 1;
 
-        // If we just landed on the duplicate (last item), schedule a
-        // snap-back after the hold period instead of a normal advance
-        if (nextIndex === allItems.length - 1) {
-          // This item is the duplicate; it will be snapped back on next advance()
+        if (next === allItems.length - 1) {
+          // Animate to the duplicate (last item)
+          showItem(next, true);
+
+          // After it settles + holds, snap invisibly back to first
+          setTimeout(() => {
+            hideUnderline();
+            setTimeout(() => {
+              scrollTo(0, false);
+              resizeWrapper(0);
+              current = 0;
+              showUnderline();
+              scheduleNext();
+            }, 300);
+          }, HOLD);
+          return;
+
+        } else if (next >= allItems.length) {
+          // Safety: shouldn't hit this, but reset if we do
+          scrollTo(0, false);
+          resizeWrapper(0);
+          current = 0;
+          showUnderline();
+          scheduleNext();
+          return;
         }
-      }
-    }, 100); // brief pause after underline hides
+
+        showItem(next, true);
+        scheduleNext();
+      }, 300); // wait for underline collapse transition
+    }, HOLD);
   }
 
-  // Initial state
-  applyItem(0, false);
+  // ── Init ─────────────────────────────────────────────────────
 
-  // Start the cycle
-  intervalId = setInterval(advance, HOLD + TRANSITION);
+  showItem(0, false);
+  scheduleNext();
 
   // Re-measure on resize
   let resizeTimer;
@@ -124,7 +176,8 @@ export function initHeroCarousel() {
     resizeTimer = setTimeout(() => {
       sizes = measureItems();
       offsets = computeOffsets(sizes);
-      applyItem(currentIndex, false);
+      scrollTo(current, false);
+      resizeWrapper(current);
     }, 150);
   });
 }

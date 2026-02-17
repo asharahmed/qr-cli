@@ -688,7 +688,8 @@ body.theme-light .hero h1 .highlight {
               height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Animated underline accent — driven by JS toggling .underline-visible */
+/* Animated underline accent — JS toggles .underline-visible and
+   sets --underline-origin to control sweep direction */
 .carousel-wrapper::after {
   content: '';
   position: absolute;
@@ -699,9 +700,10 @@ body.theme-light .hero h1 .highlight {
   background: linear-gradient(90deg, var(--phosphor), var(--cyan));
   border-radius: 1px;
   transform: scaleX(0);
-  transform-origin: left;
+  transform-origin: var(--underline-origin, left);
   opacity: 0;
-  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.25s ease;
   box-shadow: 0 0 8px var(--phosphor-glow);
 }
 
@@ -713,6 +715,7 @@ body.theme-light .hero h1 .highlight {
 .carousel {
   display: flex;
   flex-direction: column;
+  will-change: transform;
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -751,6 +754,15 @@ body.theme-light .carousel-item {
   -webkit-text-fill-color: transparent;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .carousel-wrapper,
+  .carousel-wrapper::after,
+  .carousel,
+  .carousel-item {
+    animation: none !important;
+    transition: none !important;
+  }
+}
 
 .hero-description {
   font-size: 1.0625rem;
