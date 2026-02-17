@@ -683,25 +683,12 @@ body.theme-light .hero h1 .highlight {
   position: relative;
   overflow: hidden;
   vertical-align: bottom;
-  height: 1.1em;
-  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 15%,
-    black 85%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 15%,
-    black 85%,
-    transparent 100%
-  );
+  height: 1.15em;
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Animated underline accent */
+/* Animated underline accent — driven by JS toggling .underline-visible */
 .carousel-wrapper::after {
   content: '';
   position: absolute;
@@ -713,20 +700,25 @@ body.theme-light .hero h1 .highlight {
   border-radius: 1px;
   transform: scaleX(0);
   transform-origin: left;
-  animation: underlinePulse 12s infinite;
+  opacity: 0;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
   box-shadow: 0 0 8px var(--phosphor-glow);
+}
+
+.carousel-wrapper.underline-visible::after {
+  transform: scaleX(1);
+  opacity: 1;
 }
 
 .carousel {
   display: flex;
   flex-direction: column;
-  animation: carouselScroll 12s infinite;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .carousel-item {
   display: block;
-  height: 1.1em;
-  white-space: nowrap;
+  min-height: 1.15em;
   background: linear-gradient(
     135deg,
     var(--phosphor) 0%,
@@ -759,44 +751,6 @@ body.theme-light .carousel-item {
   -webkit-text-fill-color: transparent;
 }
 
-/* 6 slots (5 unique + 1 duplicate first for seamless loop).
-   Short 2% transition windows give a quick snap between items. */
-@keyframes carouselScroll {
-  0%, 15%      { transform: translateY(0); }
-  17%, 32%     { transform: translateY(-16.667%); }
-  34%, 49%     { transform: translateY(-33.333%); }
-  51%, 66%     { transform: translateY(-50%); }
-  68%, 83%     { transform: translateY(-66.667%); }
-  85%, 100%    { transform: translateY(-83.333%); }
-}
-
-/* Underline grows in after each word lands, fades before the next transition */
-@keyframes underlinePulse {
-  0%           { transform: scaleX(0); opacity: 0; }
-  2%           { transform: scaleX(1); opacity: 1; }
-  14%          { transform: scaleX(1); opacity: 1; }
-  16%          { transform: scaleX(0); opacity: 0; }
-  17%          { transform: scaleX(0); opacity: 0; }
-  19%          { transform: scaleX(1); opacity: 1; }
-  31%          { transform: scaleX(1); opacity: 1; }
-  33%          { transform: scaleX(0); opacity: 0; }
-  34%          { transform: scaleX(0); opacity: 0; }
-  36%          { transform: scaleX(1); opacity: 1; }
-  48%          { transform: scaleX(1); opacity: 1; }
-  50%          { transform: scaleX(0); opacity: 0; }
-  51%          { transform: scaleX(0); opacity: 0; }
-  53%          { transform: scaleX(1); opacity: 1; }
-  65%          { transform: scaleX(1); opacity: 1; }
-  67%          { transform: scaleX(0); opacity: 0; }
-  68%          { transform: scaleX(0); opacity: 0; }
-  70%          { transform: scaleX(1); opacity: 1; }
-  82%          { transform: scaleX(1); opacity: 1; }
-  84%          { transform: scaleX(0); opacity: 0; }
-  85%          { transform: scaleX(0); opacity: 0; }
-  87%          { transform: scaleX(1); opacity: 1; }
-  99%          { transform: scaleX(1); opacity: 1; }
-  100%         { transform: scaleX(0); opacity: 0; }
-}
 
 .hero-description {
   font-size: 1.0625rem;
