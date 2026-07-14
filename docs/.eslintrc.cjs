@@ -9,7 +9,8 @@ module.exports = {
     sourceType: 'module'
   },
   globals: {
-    qrcode: 'readonly'
+    qrcode: 'readonly',
+    __DEPENDENCY_COUNT__: 'readonly'
   },
   rules: {
     'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],

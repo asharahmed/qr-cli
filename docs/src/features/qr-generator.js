@@ -1,5 +1,3 @@
-/* global qrcode */
-
 /**
  * Generate QR code as ASCII art
  * @param {string} text - Text to encode

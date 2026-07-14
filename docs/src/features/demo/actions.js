@@ -16,7 +16,7 @@ export function downloadQR() {
   link.download = 'qrcode.png';
   link.href = demoState.demoCanvas.toDataURL('image/png');
   link.click();
-  showToast('QR code downloaded!');
+  showToast('PNG downloaded');
 }
 
 /**
@@ -29,7 +29,7 @@ export function copyAsciiQR() {
   }
 
   copyToClipboard(demoState.demoQR.textContent);
-  showToast('ASCII QR copied!');
+  showToast('ASCII copied');
 }
 
 /**
@@ -38,7 +38,7 @@ export function copyAsciiQR() {
 export function copyCommandPreview() {
   const text = demoState.demoInput?.value || 'https://qr-cli.dev';
   copyToClipboard(getPlainCommand(text));
-  showToast('Command copied!');
+  showToast('Command copied');
 }
 
 /**

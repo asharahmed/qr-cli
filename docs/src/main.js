@@ -2,30 +2,30 @@
  * QR-CLI Docs - Main Entry Point
  *
  * This file initializes all features and sets up the application.
+ * Styling: see /DESIGN.md (Ink & Paper editorial system).
  */
-
-// Import CSS
-import './styles/main.css';
 
 // Import utilities
 import { initErrorHandler } from './utils/error-handler.js';
 
 // Import features
-import { createParticles } from './features/particles.js';
 import { initMobileMenu } from './features/mobile-menu.js';
-import { initThemeToggle } from './features/theme-toggle.js';
 import { generateHeroQR } from './features/hero-qr.js';
 import { initHeroCarousel } from './features/hero-carousel.js';
 import { initDemoQR } from './features/demo/index.js';
-import { initScrollAnimations } from './features/scroll-animations.js';
+import { initReveals } from './features/reveal.js';
+import { initParallax } from './features/parallax.js';
+import { initNav } from './features/nav.js';
 import { initActiveNavLink } from './features/active-nav.js';
 import { initStatsCounter } from './features/stats-counter.js';
-import { initDemoButtonFeedback } from './features/demo-feedback.js';
 import { initVersionBadge } from './features/version-badge.js';
-import { initScrollTop } from './features/scroll-top.js';
+import { initUtcClock } from './features/utc-clock.js';
 
 // Import global API
 import { setupGlobalAPI } from './api/global-api.js';
+
+// Reveal styles only apply when JS is running (no-JS users see everything)
+document.documentElement.classList.add('js');
 
 // Initialize error handling first
 initErrorHandler();
@@ -36,18 +36,17 @@ setupGlobalAPI();
 // Initialize all features when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   try {
-    createParticles();
+    initNav();
     initMobileMenu();
-    initThemeToggle();
     generateHeroQR();
     initHeroCarousel();
     initDemoQR();
-    initScrollAnimations();
+    initReveals();
+    initParallax();
     initActiveNavLink();
     initStatsCounter();
-    initDemoButtonFeedback();
     initVersionBadge();
-    initScrollTop();
+    initUtcClock();
   } catch (err) {
     console.error('Initialization error:', err);
   }

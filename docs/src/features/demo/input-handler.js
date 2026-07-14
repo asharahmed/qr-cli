@@ -38,15 +38,15 @@ function formatCapacityHint(capacityInfo, level, hasInput) {
   const baseText = hasInput ? 'Ready' : 'Using default';
 
   if (status === 'exceeded') {
-    return `⚠ Text too long! ${byteLength} bytes exceeds limit - Try shorter text or lower error correction`;
+    return `Too long · ${byteLength} bytes exceeds the limit · try shorter text or lower error correction`;
   }
   if (status === 'critical') {
-    return `⚠ ${percentage}% capacity - ${byteLength} bytes - Error correction ${level}`;
+    return `${percentage}% capacity · ${byteLength} bytes · error correction ${level}`;
   }
   if (status === 'warning') {
-    return `${baseText} - ${percentage}% capacity - ${byteLength} bytes - Error correction ${level}`;
+    return `${baseText} · ${percentage}% capacity · ${byteLength} bytes · error correction ${level}`;
   }
-  return `${baseText} - ${byteLength} bytes - Error correction ${level}`;
+  return `${baseText} · ${byteLength} bytes · error correction ${level}`;
 }
 
 /**

@@ -1,5 +1,3 @@
-/* global qrcode */
-
 import { generateQRCode } from '../qr-generator.js';
 import { demoState } from './state.js';
 

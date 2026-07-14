@@ -4,7 +4,7 @@ import { safeQuery } from '../utils/error-handler.js';
  * Initialize the hero carousel.
  * Fully JS-driven to handle variable item heights (text wrapping on
  * narrow viewports) with smooth transitions for position, size,
- * underline accent, and glow pulse.
+ * and the hairline underline accent.
  */
 export function initHeroCarousel() {
   const wrapper = safeQuery('.carousel-wrapper');
@@ -63,7 +63,7 @@ export function initHeroCarousel() {
   let sizes = measureItems();
   let offsets = computeOffsets(sizes);
   let current = 0;
-  let running = true;
+  const running = true;
 
   // ── Rendering ────────────────────────────────────────────────
 
@@ -95,15 +95,7 @@ export function initHeroCarousel() {
     wrapper.classList.remove('underline-visible');
   }
 
-  function pulseGlow(index) {
-    const i = index < ITEM_COUNT ? index : 0;
-    const el = items[i];
-    if (!el) return;
-    el.classList.add('glow');
-    setTimeout(() => el.classList.remove('glow'), 400);
-  }
-
-  // ── Cycle logic (setTimeout chain — no drift) ────────────────
+  // ── Cycle logic (setTimeout chain, no drift) ─────────────────
 
   function showItem(index, animate) {
     current = index;
@@ -111,10 +103,7 @@ export function initHeroCarousel() {
     resizeWrapper(index);
 
     if (animate) {
-      setTimeout(() => {
-        showUnderline();
-        pulseGlow(index);
-      }, SCROLL_MS);
+      setTimeout(showUnderline, SCROLL_MS);
     } else {
       showUnderline();
     }

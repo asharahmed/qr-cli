@@ -10,7 +10,7 @@ const distDir = join(rootDir, 'dist');
 mkdirSync(distDir, { recursive: true });
 
 // Copy static assets
-const assets = ['CNAME', 'logo.svg'];
+const assets = ['CNAME', 'logo.svg', 'qrcode.min.js'];
 
 assets.forEach(asset => {
   const srcPath = join(rootDir, asset);

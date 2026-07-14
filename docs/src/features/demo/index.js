@@ -54,9 +54,9 @@ function generateDemoQR({ silent = false } = {}) {
       let hintText;
 
       if (capacity.percentage >= CAPACITY_THRESHOLDS.CRITICAL) {
-        hintText = `${capacity.percentage}% capacity - ${capacity.byteLength} bytes - Error correction ${meta.errorLevel}`;
+        hintText = `${capacity.percentage}% capacity · ${capacity.byteLength} bytes · error correction ${meta.errorLevel}`;
       } else {
-        hintText = `${baseText} - ${capacity.byteLength} bytes - Error correction ${meta.errorLevel}`;
+        hintText = `${baseText} · ${capacity.byteLength} bytes · error correction ${meta.errorLevel}`;
       }
 
       demoHint.textContent = hintText;
@@ -72,25 +72,25 @@ function generateDemoQR({ silent = false } = {}) {
 
     if (meta && demoMeta) {
       demoMeta.innerHTML = `
-        <span>Modules: ${meta.moduleCount}x${meta.moduleCount}</span>
-        <span>Output: ${meta.rows}x${meta.columns}</span>
-        <span>Mode: ${meta.isLarge ? 'Large' : 'Compact'}</span>
-        <span>${meta.isInverted ? 'Inverted' : 'Standard'} colors</span>
+        <span>${meta.moduleCount}×${meta.moduleCount} modules</span>
+        <span>${meta.rows}×${meta.columns} output</span>
+        <span>${meta.isLarge ? 'large' : 'compact'}</span>
+        <span>${meta.isInverted ? 'inverted' : 'standard'}</span>
       `;
     }
 
     // Update command preview
     updateCommandPreview(text);
 
-    if (!silent) showToast('QR code generated!');
+    if (!silent) showToast('QR code generated');
   } catch (e) {
     // Better error message with actionable suggestion
-    const errorMsg = 'Text too long for QR code';
-    const suggestion = 'Try shorter text or lower error correction level';
+    const errorMsg = 'Text too long for a QR code';
+    const suggestion = 'Try shorter text or a lower error correction level';
 
-    showToast(`Error: ${errorMsg}`);
+    showToast(`Error · ${errorMsg}`);
     if (demoHint) {
-      demoHint.textContent = `Error - ${errorMsg}. ${suggestion}`;
+      demoHint.textContent = `Error · ${errorMsg}. ${suggestion}.`;
       demoHint.classList.remove('capacity-warning');
       demoHint.classList.add('capacity-critical');
     }
