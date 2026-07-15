@@ -45,7 +45,9 @@ export function initHeroCarousel() {
       item.style.width = `${parentWidth}px`;
 
       const width = Math.min(item.scrollWidth, parentWidth);
-      const height = item.offsetHeight;
+      // Fractional height: offsetHeight rounds to integers, and the rounding
+      // error accumulates across offsets, exposing neighbor descenders.
+      const height = item.getBoundingClientRect().height;
 
       item.style.position = prev.position;
       item.style.visibility = prev.visibility;
@@ -95,16 +97,33 @@ export function initHeroCarousel() {
     wrapper.classList.remove('underline-visible');
   }
 
+  // Instrument Serif ink overshoots its line box, so at rest a neighbor's
+  // descenders can peek into the clip window. Paint only the resting word;
+  // pass null to show everything while a slide is in motion.
+  function setItemVisibility(restingIndex) {
+    allItems.forEach((item, i) => {
+      item.style.visibility =
+        restingIndex === null || i === restingIndex ? '' : 'hidden';
+    });
+  }
+
   // ── Cycle logic (setTimeout chain, no drift) ─────────────────
 
   function showItem(index, animate) {
     current = index;
-    scrollTo(index, animate);
-    resizeWrapper(index);
 
     if (animate) {
-      setTimeout(showUnderline, SCROLL_MS);
+      setItemVisibility(null);
+      scrollTo(index, true);
+      resizeWrapper(index);
+      setTimeout(() => {
+        setItemVisibility(index);
+        showUnderline();
+      }, SCROLL_MS);
     } else {
+      scrollTo(index, false);
+      resizeWrapper(index);
+      setItemVisibility(index);
       showUnderline();
     }
   }
@@ -131,6 +150,7 @@ export function initHeroCarousel() {
               scrollTo(0, false);
               resizeWrapper(0);
               current = 0;
+              setItemVisibility(0);
               showUnderline();
               scheduleNext();
             }, 300);
@@ -142,6 +162,7 @@ export function initHeroCarousel() {
           scrollTo(0, false);
           resizeWrapper(0);
           current = 0;
+          setItemVisibility(0);
           showUnderline();
           scheduleNext();
           return;
@@ -158,15 +179,23 @@ export function initHeroCarousel() {
   showItem(0, false);
   scheduleNext();
 
+  function remeasure() {
+    sizes = measureItems();
+    offsets = computeOffsets(sizes);
+    scrollTo(current, false);
+    resizeWrapper(current);
+  }
+
   // Re-measure on resize
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      sizes = measureItems();
-      offsets = computeOffsets(sizes);
-      scrollTo(current, false);
-      resizeWrapper(current);
-    }, 150);
+    resizeTimer = setTimeout(remeasure, 150);
   });
+
+  // Initial measurement may have used fallback-font metrics; correct it
+  // once the webfonts finish loading.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(remeasure);
+  }
 }
