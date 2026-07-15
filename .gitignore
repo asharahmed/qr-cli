@@ -19,3 +19,6 @@ docs/stats.html
 # Environment
 .env
 .env.local
+
+# Portable design spec, never committed
+DESIGN.md
