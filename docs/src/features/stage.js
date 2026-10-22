@@ -36,7 +36,7 @@ export function initStage() {
   let visible = false;
 
   function reset() {
-    phone.classList.remove('locked', 'done');
+    phone.classList.remove('scanning', 'locked', 'done');
     for (const node of [qr, after, phone, keys]) node.getAnimations().forEach(animation => animation.cancel());
     typed.textContent = '';
     cursor.hidden = false;
@@ -86,9 +86,10 @@ export function initStage() {
     // A phone comes up to scan it.
     const rise = springs.smooth;
     await play(phone, [{ opacity: 0, transform: 'translateY(46cqw) rotate(4deg)' }, { opacity: 1, transform: 'none' }], { duration: rise.duration + 200, easing: rise.easing });
-    await wait(250);
+    phone.classList.add('scanning');
+    await wait(900);
     if (!alive()) return;
-    phone.classList.add('locked');
+    phone.classList.replace('scanning', 'locked');
     await wait(550);
     if (!alive()) return;
     phone.classList.add('done');

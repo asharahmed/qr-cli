@@ -1,12 +1,17 @@
 import { safeQueryAll } from '../utils/error-handler.js';
 
 /**
- * Reveal on scroll: each .reveal rises into place once, on the gentle spring.
+ * Reveal on scroll: each .reveal rises into place once, on the gentle spring. In a .stagger
+ * list the items follow one another; each gets its index as --i for the transition delay.
  * The stylesheet shows everything under reduced motion.
  */
 export function initReveals() {
-  const elements = safeQueryAll('.reveal');
+  const elements = safeQueryAll('.reveal, .stagger');
   if (!elements.length) return;
+
+  safeQueryAll('.stagger').forEach(list => {
+    [...list.children].forEach((child, index) => child.style.setProperty('--i', index));
+  });
 
   const observer = new IntersectionObserver(
     entries => {

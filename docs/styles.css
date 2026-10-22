@@ -65,6 +65,11 @@ html {
   scroll-padding-top: 72px;
 }
 
+/* Lenis drives scrolling when it's running; native smooth scrolling would fight it. */
+html.lenis {
+  scroll-behavior: auto;
+}
+
 body {
   margin: 0;
   background: var(--paper);
@@ -208,12 +213,18 @@ nav#nav .links a:hover {
   font: 600 15px/1 var(--sans);
   cursor: pointer;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset, 0 6px 18px -6px color-mix(in srgb, var(--accent) 70%, transparent);
-  transition: transform 160ms ease, filter 160ms ease;
+  transition:
+    transform var(--spring-bouncy-duration, 300ms) var(--spring-bouncy, ease-out),
+    filter 160ms ease;
 }
 
 .button:hover {
   text-decoration: none;
   filter: brightness(1.06);
+}
+
+.button:hover {
+  transform: translateY(-1px);
 }
 
 .button:active {
@@ -247,6 +258,47 @@ nav#nav .links a:hover {
 .hero.wrap {
   padding-top: clamp(48px, 9vw, 104px);
   text-align: center;
+  translate: 0 calc(var(--out, 0) * -56px);
+  opacity: calc(1 - var(--out, 0) * 0.85);
+}
+
+/* On load the hero arrives one line after another, then the stage. */
+.js .hero > *,
+.js .stage-wrap {
+  animation:
+    rise var(--spring-gentle-duration, 800ms) var(--spring-gentle, cubic-bezier(0.2, 0.8, 0.2, 1)) backwards,
+    fade 700ms ease backwards;
+}
+
+.js .hero > .icon {
+  animation:
+    pop var(--spring-bouncy-duration, 600ms) var(--spring-bouncy, cubic-bezier(0.3, 1.4, 0.5, 1)) backwards,
+    fade 300ms ease backwards;
+}
+
+.js .hero > :nth-child(2) { animation-delay: 80ms; }
+.js .hero > :nth-child(3) { animation-delay: 160ms; }
+.js .hero > :nth-child(4) { animation-delay: 230ms; }
+.js .hero > :nth-child(5) { animation-delay: 290ms; }
+.js .stage-wrap { animation-delay: 380ms; }
+
+@keyframes rise {
+  from {
+    transform: translateY(28px);
+    filter: blur(8px);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.55) rotate(-10deg);
+  }
 }
 
 .hero .icon {
@@ -291,6 +343,7 @@ h1 {
   margin: clamp(44px, 7vw, 72px) auto 0;
   max-width: 980px;
   padding: 0 var(--gutter);
+  perspective: 1800px;
 }
 
 .stage {
@@ -299,10 +352,11 @@ h1 {
   container-type: inline-size;
   overflow: hidden;
   border-radius: clamp(12px, 2vw, 22px);
-  background:
-    radial-gradient(120% 90% at 78% 8%, #3f6dd8 0%, transparent 55%),
-    radial-gradient(90% 80% at 12% 100%, #7a3fd1 0%, transparent 60%),
-    linear-gradient(160deg, #1a2140, #0e1222);
+  background: linear-gradient(160deg, #1a2140, #0e1222);
+  transform-origin: 50% 0;
+  transform:
+    rotateX(calc((1 - var(--enter, 1)) * 16deg))
+    scale(calc(0.9 + var(--enter, 1) * 0.1));
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.08) inset,
     0 40px 80px -30px rgba(10, 20, 60, 0.55),
@@ -310,6 +364,26 @@ h1 {
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
+}
+
+/* The wallpaper, on its own layer so it can drift behind the windows. */
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: -8cqw;
+  background:
+    radial-gradient(70% 55% at 76% 24%, #3f6dd8 0%, transparent 70%),
+    radial-gradient(55% 50% at 16% 88%, #7a3fd1 0%, transparent 72%);
+  translate: 0 calc(var(--depth, 0) * 6cqw);
+  pointer-events: none;
+}
+
+.stage .term-window {
+  translate: 0 calc(var(--depth, 0) * -1.5cqw);
+}
+
+.stage .phone {
+  translate: 0 calc(var(--depth, 0) * -5cqw);
 }
 
 .menubar {
@@ -491,6 +565,31 @@ h1 {
   place-items: center;
   background:
     radial-gradient(80% 60% at 50% 45%, #2b2f3a, #121319);
+}
+
+.phone .screen::after {
+  content: "";
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  top: 34%;
+  height: 0.25cqw;
+  border-radius: 1cqw;
+  background: linear-gradient(90deg, transparent, #ffd60a, transparent);
+  box-shadow: 0 0 1.6cqw rgba(255, 214, 10, 0.6);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.phone.scanning .screen::after {
+  opacity: 0.9;
+  animation: scan 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes scan {
+  to {
+    top: 64%;
+  }
 }
 
 .phone-qr {
@@ -1118,6 +1217,7 @@ input[type="range"] {
   grid-template-columns: 1fr auto;
   gap: 32px;
   align-items: center;
+  scale: calc(0.92 + var(--enter, 1) * 0.08);
 }
 
 /* Grid items default to their content's width; the long commands must scroll instead. */
@@ -1279,15 +1379,35 @@ footer a {
 /* Elements that reveal once as they scroll into view. Without JS they simply show. */
 .js .reveal {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(24px);
   transition:
     opacity 600ms ease,
+    filter 600ms ease,
     transform var(--spring-gentle-duration, 800ms) var(--spring-gentle, ease-out);
+}
+
+.js .section-head.reveal {
+  filter: blur(6px);
 }
 
 .js .reveal.in {
   opacity: 1;
   transform: none;
+  filter: none;
+}
+
+.js .stagger > * {
+  opacity: 0;
+  translate: 0 16px;
+  transition:
+    opacity 500ms ease,
+    translate var(--spring-gentle-duration, 800ms) var(--spring-gentle, ease-out);
+  transition-delay: calc(var(--i, 0) * 70ms + 80ms);
+}
+
+.js .stagger.in > * {
+  opacity: 1;
+  translate: none;
 }
 
 @media (max-width: 860px) {
@@ -1345,9 +1465,12 @@ footer a {
     scroll-behavior: auto;
   }
 
-  .js .reveal {
+  .js .reveal,
+  .js .stagger > * {
     opacity: 1;
     transform: none;
+    translate: none;
+    filter: none;
   }
 
   *,

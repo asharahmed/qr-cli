@@ -11,6 +11,8 @@ import { initErrorHandler } from './utils/error-handler.js';
 // Import features
 import { initMotion } from './features/motion.js';
 import { initNav } from './features/nav.js';
+import { initSmoothScroll } from './features/smooth-scroll.js';
+import { initScrollEffects } from './features/scroll-effects.js';
 import { initStage } from './features/stage.js';
 import { initOutputFormats } from './features/output-formats.js';
 import { initDemoQR } from './features/demo/index.js';
@@ -36,7 +38,9 @@ setupGlobalAPI();
 // Initialize all features when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   try {
+    initSmoothScroll();
     initNav();
+    initScrollEffects();
     initStage();
     initOutputFormats();
     initDemoQR();
