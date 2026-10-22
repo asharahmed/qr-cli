@@ -2,24 +2,21 @@
  * QR-CLI Docs - Main Entry Point
  *
  * This file initializes all features and sets up the application.
- * Styling: see /DESIGN.md (Ink & Paper editorial system).
+ * Styling follows the Screenshotr site: see styles.css.
  */
 
 // Import utilities
 import { initErrorHandler } from './utils/error-handler.js';
 
 // Import features
-import { initMobileMenu } from './features/mobile-menu.js';
-import { generateHeroQR } from './features/hero-qr.js';
-import { initHeroCarousel } from './features/hero-carousel.js';
+import { initMotion } from './features/motion.js';
+import { initNav } from './features/nav.js';
+import { initStage } from './features/stage.js';
+import { initOutputFormats } from './features/output-formats.js';
 import { initDemoQR } from './features/demo/index.js';
 import { initReveals } from './features/reveal.js';
-import { initParallax } from './features/parallax.js';
-import { initNav } from './features/nav.js';
-import { initActiveNavLink } from './features/active-nav.js';
-import { initStatsCounter } from './features/stats-counter.js';
+import { initInstallCopy } from './features/install-copy.js';
 import { initVersionBadge } from './features/version-badge.js';
-import { initUtcClock } from './features/utc-clock.js';
 
 // Import global API
 import { setupGlobalAPI } from './api/global-api.js';
@@ -30,6 +27,9 @@ document.documentElement.classList.add('js');
 // Initialize error handling first
 initErrorHandler();
 
+// Springs go on :root before anything transitions
+initMotion();
+
 // Setup global API BEFORE DOMContentLoaded for onclick handlers
 setupGlobalAPI();
 
@@ -37,16 +37,12 @@ setupGlobalAPI();
 document.addEventListener('DOMContentLoaded', () => {
   try {
     initNav();
-    initMobileMenu();
-    generateHeroQR();
-    initHeroCarousel();
+    initStage();
+    initOutputFormats();
     initDemoQR();
     initReveals();
-    initParallax();
-    initActiveNavLink();
-    initStatsCounter();
+    initInstallCopy();
     initVersionBadge();
-    initUtcClock();
   } catch (err) {
     console.error('Initialization error:', err);
   }

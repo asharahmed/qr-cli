@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="qr-cli">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#4a94ff"/>
+      <stop offset="1" stop-color="#1f4fc4"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.22"/>
+      <stop offset="0.5" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="29" fill="url(#bg)"/>
+  <rect width="128" height="128" rx="29" fill="url(#sheen)"/>
+  <g fill="none" stroke="#fff" stroke-width="7">
+    <rect x="27.5" y="27.5" width="27" height="27" rx="6"/>
+    <rect x="73.5" y="27.5" width="27" height="27" rx="6"/>
+    <rect x="27.5" y="73.5" width="27" height="27" rx="6"/>
+  </g>
+  <g fill="#fff">
+    <rect x="36" y="36" width="10" height="10" rx="2"/>
+    <rect x="82" y="36" width="10" height="10" rx="2"/>
+    <rect x="36" y="82" width="10" height="10" rx="2"/>
+    <rect x="72" y="72" width="11" height="11" rx="2.5"/>
+    <rect x="89" y="89" width="11" height="11" rx="2.5"/>
+    <rect x="72" y="89" width="11" height="11" rx="2.5" opacity="0.55"/>
+    <rect x="89" y="72" width="11" height="11" rx="2.5" opacity="0.55"/>
+  </g>
+</svg>

@@ -2,7 +2,8 @@ import { demoState } from './state.js';
 import { updateCommandPreview } from './command-preview.js';
 
 /**
- * Create option toggle handler
+ * Create option toggle handler. The checkbox sits inside its label, so the browser
+ * toggles it; this only follows the change.
  * @param {HTMLElement} option - Option container element
  * @param {HTMLInputElement} checkbox - Associated checkbox
  * @param {Function} generateFn - Generate QR function
@@ -11,8 +12,7 @@ import { updateCommandPreview } from './command-preview.js';
 export function createOptionToggle(option, checkbox, generateFn, triggerLivePreview = true) {
   if (!option || !checkbox) return;
 
-  option.addEventListener('click', () => {
-    checkbox.checked = !checkbox.checked;
+  checkbox.addEventListener('change', () => {
     option.classList.toggle('active', checkbox.checked);
 
     if (triggerLivePreview && demoState.liveCheck?.checked) {
@@ -36,9 +36,9 @@ export function initOptions(generateFn) {
   createOptionToggle(optionLive, liveCheck, generateFn, false);
 
   // Special handling for live check - generate immediately when enabled
-  if (optionLive) {
-    optionLive.addEventListener('click', () => {
-      if (liveCheck?.checked) {
+  if (liveCheck) {
+    liveCheck.addEventListener('change', () => {
+      if (liveCheck.checked) {
         generateFn();
       }
     });
