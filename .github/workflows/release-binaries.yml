@@ -101,3 +101,24 @@ jobs:
           files: |
             scripts/universal/qr-linux-universal.sh
             scripts/universal/qr-windows-universal.ps1
+
+  update-homebrew:
+    name: Update Homebrew formula
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # HOMEBREW_TAP_TOKEN: a fine-grained token limited to asharahmed/homebrew-tap
+      # with Contents read and write. GITHUB_TOKEN can't write to another repo.
+      - name: Write Formula/qr-cli.rb to the tap
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          if [ -z "$TAP_TOKEN" ]; then
+            echo "::warning::HOMEBREW_TAP_TOKEN is not set; skipping the Homebrew formula update."
+            exit 0
+          fi
+          scripts/homebrew-formula.sh "${{ inputs.tag || github.ref_name }}" --publish

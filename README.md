@@ -29,7 +29,12 @@ npx github:asharahmed/qr-cli "https://example.com"
 ```
 
 ## Install
-For frequent use, install globally:
+With Homebrew (macOS and Linux):
+```bash
+brew install asharahmed/tap/qr-cli
+```
+
+Or with npm:
 ```bash
 npm install -g github:asharahmed/qr-cli
 ```
